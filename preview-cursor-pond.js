@@ -246,6 +246,14 @@
   }, { passive: true });
 
   // --- wheel = page-turn command: any scroll in a direction flips one scene ---
+  function pageBy(dir) {
+    var idx = nearestAnchor(scrollProgress());
+    var next = Math.max(0, Math.min(anchors.length - 1, idx + dir));
+    var rect = heroTrack.getBoundingClientRect();
+    var total = rect.height - window.innerHeight;
+    var y = rect.top + (window.scrollY || 0) + total * anchors[next];
+    glideTo(y);
+  }
   var wheelLock = false, wheelTimer = null;
   window.addEventListener('wheel', function (e) {
     e.preventDefault(); // scrolling becomes a page-turn, not a distance
@@ -253,15 +261,23 @@
     wheelLock = true;
     clearTimeout(wheelTimer);
     wheelTimer = setTimeout(function () { wheelLock = false; }, 400);
-
-    var dir = e.deltaY > 0 ? 1 : -1;
-    var idx = nearestAnchor(scrollProgress());
-    var next = Math.max(0, Math.min(anchors.length - 1, idx + dir));
-    var rect = heroTrack.getBoundingClientRect();
-    var total = rect.height - window.innerHeight;
-    var y = rect.top + (window.scrollY || 0) + total * anchors[next];
-    glideTo(y);
+    pageBy(e.deltaY > 0 ? 1 : -1);
   }, { passive: false });
+
+  // --- touch swipe = page-turn (same command as the wheel) ---
+  var touchY = null;
+  document.addEventListener('touchstart', function (e) {
+    if (e.touches.length === 1) touchY = e.touches[0].clientY;
+  }, { passive: true });
+  document.addEventListener('touchmove', function (e) {
+    if (touchY !== null) e.preventDefault(); // hold the page still during the swipe
+  }, { passive: false });
+  document.addEventListener('touchend', function (e) {
+    if (touchY === null) return;
+    var dy = e.changedTouches[0].clientY - touchY;
+    touchY = null;
+    if (Math.abs(dy) > 60) pageBy(dy < 0 ? 1 : -1); // swipe up = next scene
+  });
 
   // --- nav: scroll to the matching scene ---
   var sceneTargets = { about: 0.36, projects: 0.61, now: 0.88, links: 0.88 };

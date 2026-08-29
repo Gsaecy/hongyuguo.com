@@ -453,4 +453,13 @@ a { color: var(--primary); text-decoration: none; }
 
   .nav-links { gap: 16px; }
   .wordmark { font-size: 13px; }
+
+  /* bigger touch targets */
+  .link-pill { padding: 10px 14px; gap: 8px; }
+  .nav-links a { padding: 8px 2px; }
+
+  /* vertically center scenes on taller phones (safe on short screens) */
+  @media (min-height: 720px) {
+    .screen-content { justify-content: center; padding-top: 72px; padding-bottom: 24px; }
+  }
 }
