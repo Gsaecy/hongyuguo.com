@@ -1,0 +1,449 @@
+/* ==========================================================================
+   Hongyu Guo · Indie Developer — one-page site
+   Design system: Apple (see DESIGN.md). All colors/type/spacing follow tokens.
+   ========================================================================== */
+
+:root {
+  /* colors */
+  --primary: #0066cc;
+  --primary-focus: #0071e3;
+  --primary-on-dark: #2997ff;
+  --ink: #1d1d1f;
+  --ink-muted-80: #333333;
+  --ink-muted-48: #7a7a7a;
+  --divider-soft: #f0f0f0;
+  --hairline: #e0e0e0;
+  --canvas: #ffffff;
+  --canvas-parchment: #f5f5f7;
+  --surface-tile-1: #272729;
+  --surface-tile-2: #2a2a2c;
+  --on-dark: #ffffff;
+
+  /* typography */
+  --font-display: "SF Pro Display", system-ui, -apple-system, BlinkMacSystemFont,
+    "Inter", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --font-text: "SF Pro Text", system-ui, -apple-system, BlinkMacSystemFont,
+    "Inter", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+
+  /* spacing */
+  --sp-section: 80px;
+  --sp-xxl: 48px;
+  --sp-xl: 32px;
+  --sp-lg: 24px;
+  --sp-md: 17px;
+
+  /* shape */
+  --rounded-pill: 9999px;
+  --rounded-lg: 18px;
+
+  /* the one true shadow — product/avatar resting on a surface */
+  --shadow-product: rgba(0, 0, 0, 0.22) 3px 5px 30px 0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-text);
+  font-size: 17px;
+  line-height: 1.47;
+  letter-spacing: -0.374px;
+  color: var(--ink);
+  background: var(--canvas);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+/* --------------------------------------------------------------------------
+   Global nav — ultra-thin black bar, 44px
+   -------------------------------------------------------------------------- */
+.global-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 44px;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  display: flex;
+  align-items: center;
+}
+
+.nav-inner {
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-brand {
+  color: var(--on-dark);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.12px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 28px;
+}
+
+.nav-links a {
+  color: var(--on-dark);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: -0.12px;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.nav-links a:hover {
+  opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Tiles — full-bleed sections, the color change is the divider
+   -------------------------------------------------------------------------- */
+.tile {
+  padding: var(--sp-section) 22px;
+  text-align: center;
+}
+
+.tile.parchment {
+  background: var(--canvas-parchment);
+}
+
+.tile.dark {
+  background: var(--surface-tile-1);
+  color: var(--on-dark);
+}
+
+.tile .inner,
+.about-copy,
+.now-copy,
+.link-list {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* --------------------------------------------------------------------------
+   Hero — white canvas
+   -------------------------------------------------------------------------- */
+.hero {
+  padding-top: 120px;
+  padding-bottom: 120px;
+}
+
+.avatar {
+  width: 176px;
+  height: 176px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: var(--shadow-product); /* the system's single drop-shadow */
+  margin-bottom: var(--sp-xxl);
+}
+
+.hero-name {
+  font-family: var(--font-display);
+  font-size: 56px;
+  font-weight: 600;
+  line-height: 1.07;
+  letter-spacing: -0.28px;
+}
+
+.hero-role {
+  margin-top: var(--sp-md);
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.19;
+  letter-spacing: 0.231px;
+  color: var(--ink-muted-48);
+}
+
+.hero-tagline {
+  margin-top: var(--sp-xl);
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.14;
+  letter-spacing: 0.196px;
+}
+
+.hero-tagline-zh {
+  margin-top: var(--sp-md);
+  font-size: 19px;
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--ink-muted-48);
+}
+
+.hero-cta {
+  margin-top: var(--sp-xxl);
+  display: flex;
+  justify-content: center;
+  gap: var(--sp-md);
+  flex-wrap: wrap;
+}
+
+/* --------------------------------------------------------------------------
+   Buttons — the signature pill grammar
+   -------------------------------------------------------------------------- */
+.btn-pill {
+  display: inline-block;
+  background: var(--primary);
+  color: var(--canvas);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.47;
+  letter-spacing: -0.374px;
+  border-radius: var(--rounded-pill);
+  padding: 11px 22px;
+  transition: transform 0.15s ease, background 0.2s ease;
+}
+
+.btn-pill:hover {
+  background: var(--primary-focus);
+}
+
+.btn-pill:active {
+  transform: scale(0.95);
+}
+
+.btn-pill:focus-visible {
+  outline: 2px solid var(--primary-focus);
+  outline-offset: 2px;
+}
+
+.btn-pill.ghost {
+  background: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+}
+
+.btn-pill.ghost:hover {
+  background: rgba(0, 102, 204, 0.06);
+}
+
+.btn-pill.ghost-dark {
+  background: transparent;
+  color: var(--primary-on-dark);
+  border: 1px solid var(--primary-on-dark);
+}
+
+.btn-pill.ghost-dark:hover {
+  background: rgba(41, 151, 255, 0.12);
+}
+
+/* --------------------------------------------------------------------------
+   Section titles
+   -------------------------------------------------------------------------- */
+.section-title {
+  font-family: var(--font-text);
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 1.47;
+  letter-spacing: -0.374px;
+  margin-bottom: var(--sp-xxl);
+}
+
+.section-title.on-dark {
+  color: var(--on-dark);
+}
+
+/* --------------------------------------------------------------------------
+   About — parchment
+   -------------------------------------------------------------------------- */
+.about-copy {
+  text-align: left;
+}
+
+.about-copy p {
+  margin-bottom: var(--sp-lg);
+}
+
+.about-copy p:last-child {
+  margin-bottom: 0;
+}
+
+.about-copy .zh,
+.now-copy.zh {
+  color: var(--ink-muted-48);
+  font-size: 15px;
+}
+
+/* --------------------------------------------------------------------------
+   Projects — dark tile, two product cards
+   -------------------------------------------------------------------------- */
+.projects-grid {
+  max-width: 980px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-lg);
+}
+
+.product-card {
+  background: var(--surface-tile-2);
+  border-radius: var(--rounded-lg);
+  padding: 56px 40px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.product-name {
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--on-dark);
+}
+
+.product-tagline {
+  margin-top: var(--sp-md);
+  max-width: 360px;
+  font-size: 17px;
+  line-height: 1.47;
+  letter-spacing: -0.374px;
+  color: #cccccc;
+  flex: 1;
+}
+
+.product-cta {
+  margin-top: var(--sp-xl);
+}
+
+/* --------------------------------------------------------------------------
+   Now — white tile
+   -------------------------------------------------------------------------- */
+.now-copy {
+  font-size: 21px;
+  font-weight: 300;
+  line-height: 1.5;
+  letter-spacing: 0;
+  margin-bottom: var(--sp-lg);
+}
+
+.now-copy:last-child {
+  margin-bottom: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Links — parchment, dense link list
+   -------------------------------------------------------------------------- */
+.link-list {
+  list-style: none;
+  text-align: left;
+}
+
+.link-list li {
+  border-bottom: 1px solid var(--hairline);
+}
+
+.link-list li:last-child {
+  border-bottom: none;
+}
+
+.dense-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-md) 0;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 2.41;
+  letter-spacing: 0;
+  color: var(--ink);
+  transition: color 0.2s ease;
+}
+
+.dense-link:hover {
+  color: var(--primary);
+}
+
+.dense-link .arrow {
+  color: var(--ink-muted-48);
+  font-size: 22px;
+  line-height: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Footer — parchment, fine print
+   -------------------------------------------------------------------------- */
+.footer {
+  background: var(--canvas-parchment);
+  border-top: 1px solid var(--divider-soft);
+  padding: 40px 22px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.6;
+  letter-spacing: -0.12px;
+  color: var(--ink-muted-48);
+}
+
+.footer .zh {
+  margin-top: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive
+   -------------------------------------------------------------------------- */
+@media (max-width: 734px) {
+  .tile {
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
+
+  .hero {
+    padding-top: 96px;
+    padding-bottom: 96px;
+  }
+
+  .avatar {
+    width: 144px;
+    height: 144px;
+  }
+
+  .hero-name {
+    font-size: 40px;
+  }
+
+  .hero-tagline {
+    font-size: 24px;
+  }
+
+  .section-title {
+    font-size: 28px;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-card {
+    padding: 48px 28px;
+  }
+
+  .product-name {
+    font-size: 32px;
+  }
+
+  .nav-links {
+    gap: 16px;
+  }
+}

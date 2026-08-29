@@ -1,0 +1,10 @@
+# macOS
+.DS_Store
+
+# source assets (archived originals, large)
+source/
+pond/Map/
+pond/sc/
+
+# deploy bundle (regenerated on demand)
+deploy/*.tar.gz

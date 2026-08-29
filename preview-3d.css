@@ -1,0 +1,542 @@
+/* ==========================================================================
+   Hongyu Guo — 3D 特效预览（preview-3d.html 专用）
+   基底：replicate 风格（design/candidates/replicate.md）
+   3D：Vanta NET 粒子网背景 + Atropos 视差卡片（本地 vendor）
+   ========================================================================== */
+
+:root {
+  /* colors */
+  --primary: #ea2804;
+  --primary-deep: #c01f00;
+  --on-primary: #ffffff;
+  --ink: #202020;
+  --body: #3a3a3a;
+  --charcoal: #575757;
+  --ash: #8d8d8d;
+  --on-dark: #fcfcfc;
+  --on-dark-mute: rgba(252, 252, 252, 0.72);
+  --canvas: #f9f7f3;
+  --surface-bone: #f3f0e8;
+  --surface-card: #ffffff;
+  --surface-dark: #202020;
+  --surface-deep: #000000;
+  --hairline: rgba(32, 32, 32, 0.12);
+  --hairline-strong: #202020;
+  --divider-dark: rgba(255, 255, 255, 0.2);
+  --hero-bg: #141412;
+
+  /* typography */
+  --font-display: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, monospace;
+
+  /* spacing */
+  --sp-section: 96px;
+  --sp-band: 160px;
+  --sp-xxxl: 48px;
+  --sp-xxl: 32px;
+  --sp-xl: 24px;
+  --sp-lg: 16px;
+  --sp-md: 12px;
+
+  /* shape */
+  --rounded-md: 10px;
+  --rounded-lg: 16px;
+  --rounded-full: 9999px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--body);
+  background: var(--canvas);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+/* --------------------------------------------------------------------------
+   Preview banner
+   -------------------------------------------------------------------------- */
+.preview-banner {
+  background: var(--surface-deep);
+  color: var(--on-dark);
+  font-size: 13px;
+  text-align: center;
+  padding: 8px 16px;
+  letter-spacing: 0.02em;
+}
+
+/* --------------------------------------------------------------------------
+   Nav bar — cream, 60px
+   -------------------------------------------------------------------------- */
+.nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 60px;
+  background: var(--canvas);
+  border-bottom: 1px solid var(--hairline);
+  display: flex;
+  align-items: center;
+}
+
+.nav-inner {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-lg);
+}
+
+.wordmark {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.wordmark .dot {
+  color: var(--primary);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+}
+
+.sub-nav-pill {
+  display: inline-block;
+  background: var(--surface-card);
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.0;
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-full);
+  padding: 8px 14px;
+  transition: border-color 0.2s ease;
+}
+
+.sub-nav-pill:hover {
+  border-color: var(--hairline-strong);
+  color: var(--ink);
+}
+
+/* --------------------------------------------------------------------------
+   Buttons — everything fully rounded
+   -------------------------------------------------------------------------- */
+.btn-primary {
+  display: inline-block;
+  background: var(--primary);
+  color: var(--on-primary);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.0;
+  letter-spacing: 0;
+  border-radius: var(--rounded-full);
+  padding: 14px 24px;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.btn-primary:hover {
+  background: var(--primary-deep);
+  color: var(--on-primary);
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
+}
+
+.nav-cta {
+  padding: 10px 18px;
+  font-size: 14px;
+}
+
+.btn-outline-on-dark {
+  display: inline-block;
+  background: transparent;
+  color: var(--on-dark);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.0;
+  border: 1px solid var(--divider-dark);
+  border-radius: var(--rounded-full);
+  padding: 13px 23px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.btn-outline-on-dark:hover {
+  border-color: var(--on-dark);
+  color: var(--on-dark);
+}
+
+/* --------------------------------------------------------------------------
+   Hero — dark 3D band: Vanta net canvas behind, content above
+   -------------------------------------------------------------------------- */
+.hero3d {
+  position: relative;
+  overflow: hidden;
+  background: var(--hero-bg);
+  padding: var(--sp-band) 24px;
+  text-align: center;
+}
+
+#bg3d {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+#bg3d canvas {
+  display: block;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.avatar-wrap {
+  display: inline-block;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: var(--sp-xxxl);
+}
+
+.avatar {
+  display: block;
+  width: 176px;
+  height: 176px;
+  border-radius: var(--rounded-full);
+  object-fit: cover;
+  border: 4px solid rgba(255, 255, 255, 0.9);
+}
+
+.hero-name {
+  font-family: var(--font-display);
+  font-size: 72px;
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -1.8px;
+  color: var(--on-dark);
+}
+
+.hero-role {
+  margin-top: var(--sp-xl);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--on-dark);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--divider-dark);
+  display: inline-block;
+  border-radius: var(--rounded-full);
+  padding: 6px 16px;
+}
+
+.hero-tagline {
+  margin-top: var(--sp-xl);
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  color: var(--on-dark);
+}
+
+.hero-tagline-zh {
+  margin-top: var(--sp-md);
+  font-size: 17px;
+  color: var(--on-dark-mute);
+}
+
+.hero-cta {
+  margin-top: var(--sp-xxxl);
+  display: flex;
+  justify-content: center;
+  gap: var(--sp-lg);
+  flex-wrap: wrap;
+}
+
+/* --------------------------------------------------------------------------
+   Bands — 96px editorial rhythm on cream
+   -------------------------------------------------------------------------- */
+.band {
+  padding: var(--sp-section) 24px;
+  text-align: center;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ash);
+  margin-bottom: var(--sp-md);
+}
+
+.eyebrow.on-dark {
+  color: var(--on-dark-mute);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -1px;
+  color: var(--ink);
+  margin-bottom: var(--sp-xxxl);
+}
+
+.section-title.on-dark {
+  color: var(--on-dark);
+}
+
+.about-copy,
+.now-copy {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.about-copy p {
+  font-size: 18px;
+  line-height: 1.56;
+  margin-bottom: var(--sp-xl);
+}
+
+.about-copy p:last-child {
+  margin-bottom: 0;
+}
+
+.about-copy .zh,
+.now-copy.zh {
+  color: var(--charcoal);
+  font-size: 15px;
+}
+
+/* --------------------------------------------------------------------------
+   Projects — 3D tilt cards (Atropos)
+   -------------------------------------------------------------------------- */
+.projects-grid {
+  max-width: 960px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-xl);
+}
+
+.product-card-wrap {
+  display: block;
+}
+
+.product-card {
+  background: var(--surface-card);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-md);
+  padding: var(--sp-xxl) var(--sp-xl);
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 100%;
+}
+
+.card-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+  background: var(--canvas);
+  border-radius: var(--rounded-full);
+  padding: 4px 10px;
+  margin-bottom: var(--sp-lg);
+}
+
+.product-name {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.33;
+  letter-spacing: -0.35px;
+  color: var(--ink);
+}
+
+.product-tagline {
+  margin-top: var(--sp-md);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--body);
+  flex: 1;
+}
+
+.product-cta {
+  margin-top: var(--sp-xl);
+}
+
+.product-cta .btn-primary {
+  padding: 12px 20px;
+  font-size: 14px;
+}
+
+/* --------------------------------------------------------------------------
+   Now — dark band
+   -------------------------------------------------------------------------- */
+.band-dark {
+  background: var(--surface-dark);
+  padding: var(--sp-section) 24px;
+  text-align: center;
+}
+
+.now-copy {
+  color: var(--on-dark);
+  font-size: 18px;
+  line-height: 1.56;
+  margin-bottom: var(--sp-xl);
+}
+
+.now-copy:last-child {
+  margin-bottom: 0;
+}
+
+.now-copy.zh {
+  color: var(--on-dark-mute);
+  font-size: 15px;
+}
+
+/* --------------------------------------------------------------------------
+   Links — pill grid on cream
+   -------------------------------------------------------------------------- */
+.links-pills {
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--sp-lg);
+}
+
+.link-pill {
+  display: inline-block;
+  background: var(--surface-card);
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.0;
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-full);
+  padding: 16px 28px;
+  transition: border-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.link-pill:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  transform: translateY(-1px);
+}
+
+/* --------------------------------------------------------------------------
+   Footer — pure black
+   -------------------------------------------------------------------------- */
+.footer {
+  background: var(--surface-deep);
+  color: var(--on-dark);
+  padding: 64px 24px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.footer .zh {
+  margin-top: 4px;
+  color: var(--on-dark-mute);
+}
+
+/* --------------------------------------------------------------------------
+   Responsive
+   -------------------------------------------------------------------------- */
+@media (max-width: 734px) {
+  .hero3d {
+    padding-top: 112px;
+    padding-bottom: 112px;
+  }
+
+  .band,
+  .band-dark {
+    padding-top: 72px;
+    padding-bottom: 72px;
+  }
+
+  .avatar {
+    width: 144px;
+    height: 144px;
+  }
+
+  .hero-name {
+    font-size: 48px;
+    letter-spacing: -1.2px;
+  }
+
+  .hero-tagline {
+    font-size: 24px;
+  }
+
+  .section-title {
+    font-size: 36px;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-links {
+    gap: 6px;
+  }
+
+  .wordmark {
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  .sub-nav-pill {
+    padding: 7px 9px;
+    font-size: 12px;
+  }
+
+  .nav-cta {
+    padding: 9px 12px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  .sub-nav-pill {
+    display: none;
+  }
+}
