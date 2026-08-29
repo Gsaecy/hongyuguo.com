@@ -441,14 +441,14 @@ a { color: var(--primary); text-decoration: none; }
 
 /* ---- responsive ------------------------------------------------------------- */
 @media (max-width: 734px) {
-  .screen-content { padding: 56px 16px; justify-content: flex-start; }
+  .screen-content { padding: 80px 16px 24px; justify-content: flex-start; }
   .hero-content { justify-content: center; }
   .hero-name { font-size: 44px; letter-spacing: -1.32px; }
   .hero-tagline { font-size: 22px; }
   .avatar { width: 132px; height: 132px; margin-bottom: var(--sp-xl); }
   .section-title { font-size: 28px; margin-bottom: var(--sp-xl); }
   .glass, .panel-inner { padding: 0; }
-  .screen-panel { padding: 64px 22px; }
+  .screen-panel { padding: 80px 22px 40px; } /* 80px clears the 64px fixed nav */
   .projects-grid { grid-template-columns: 1fr; }
 
   .nav-links { gap: 16px; }
@@ -458,8 +458,8 @@ a { color: var(--primary); text-decoration: none; }
   .link-pill { padding: 10px 14px; gap: 8px; }
   .nav-links a { padding: 8px 2px; }
 
-  /* vertically center scenes on taller phones (safe on short screens) */
-  @media (min-height: 720px) {
-    .screen-content { justify-content: center; padding-top: 72px; padding-bottom: 24px; }
-  }
+  /* safe vertical centering: auto margins center content when it fits,
+     and collapse to top-aligned (no clipping) when it is taller than the
+     viewport — keeps the eyebrow (01/02/03) always visible */
+  .panel-inner, .end-inner { margin-top: auto; margin-bottom: auto; }
 }
