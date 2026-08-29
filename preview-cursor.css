@@ -412,8 +412,16 @@ a { color: var(--primary); text-decoration: none; }
 .now-copy:last-child { margin-bottom: 0; }
 .now-copy.zh { color: var(--muted); font-size: 15px; }
 
-.links-rows { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: var(--sp-md); }
-.links-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px 28px; }
+.links-rows {
+  display: grid;
+  grid-template-columns: repeat(2, max-content); /* two columns */
+  column-gap: 28px;
+  row-gap: 12px;
+  justify-content: center;
+  margin-top: var(--sp-md);
+}
+.links-row { display: contents; } /* icons flow straight into the grid */
+.links-row .link-pill { justify-self: start; } /* each column left-aligned */
 .link-pill {
   display: inline-flex;
   align-items: center;
