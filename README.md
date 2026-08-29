@@ -8,12 +8,14 @@
 ## 特性
 
 - 🎞 **单屏四幕滚动叙事**：fixed 视窗 + 400vh 轨道，滚动依次呈现 Hero → About → Projects → Now/Links
-- 🖱 **翻页式滚动**：滚轮方向 = 翻页命令（与滚动距离无关），约 3.2s 平滑动画，背景图全程交叉淡化
+- 🖱 **翻页式滚动**：滚轮方向 = 翻页命令（与滚动距离无关），约 3.2s 平滑动画，背景图全程交叉淡化；近距轻吸附兜底
+- 📲 **移动端触摸翻页**：上滑/下滑同样为翻页命令，与桌面体验一致；内容安全居中（超高不裁切）、序号避开固定导航栏
 - 🌸 **荷花池塘背景**：三张渲染图随幕切换，Ken Burns 缓慢推进；第三幕 ct8 全屏 cover 最小裁剪
 - 🐟 **鱼蛙装饰**：CGmodel 模型渲染图（作者本人创作），镜像/摆动/双帧交替动画，随视窗缩小自适应尺寸与透明度，点击跳转 CGmodel 作品页
 - 🎨 **Cursor 设计系统**：奶油底 + 墨色文字 + 橙色点缀，源自 [awesome-design-md](https://github.com/VoltAgent/awesome-design-md)
 - 🌓 **明暗主题自适应 favicon**：`prefers-color-scheme` 切换黑/白签名图标
-- 📱 移动端自适应：鱼蛙渐隐至文字底层、无横向溢出
+- 🌐 **英文界面**：全站英文内容，仅保留中文诗句 tagline「让数字生活，好用如诗，好看如画」
+- 📱 移动端自适应：鱼蛙渐隐至文字底层、Links 两列网格左对齐、无横向溢出
 - 纯静态站点：零构建、零依赖，原生 HTML/CSS/JS
 
 ## 结构
@@ -23,9 +25,9 @@ hongyuguo.com/
 ├── DESIGN.md            # 设计系统（当前生效：cursor，来自 awesome-design-md）
 ├── index.html           # 正式版（Cursor 风格单屏四幕滚动叙事，与 preview-cursor.html 同源）
 ├── preview-cursor.css   # Cursor 风格样式（正式版与预览页共用）
-├── preview-cursor-pond.js  # 滚动叙事引擎：四幕场景切换 + 鱼蛙装饰自适应布局/点击跳转
+├── preview-cursor-pond.js  # 滚动引擎：滚轮/触摸翻页、近距吸附、场景切换、鱼蛙布局
 ├── styles.css           # 旧 Apple 风格样式（已退役，保留备用）
-├── preview-cursor.html  # Cursor 风格预览页（与正式版同源，带预览横幅）
+├── preview-cursor.html  # Cursor 风格预览页（与正式版同源，带英文预览横幅）
 ├── preview-replicate.html  # Replicate 风格预览页（候补风格）
 ├── preview-replicate.css   # Replicate 风格预览样式
 ├── preview-3d.html      # 3D 特效预览页（Replicate 基底 + Vanta 粒子网 + Atropos 视差）
