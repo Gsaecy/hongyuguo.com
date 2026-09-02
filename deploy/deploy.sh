@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# hongyuguo.com 部署脚本（宝塔服务器）
+# hongyuguo.com 部署脚本（阿里云轻量 · 新加坡，Nginx 环境）
 # 用法:
 #   SERVER=root@1.2.3.4 ./deploy/deploy.sh        # 默认网站目录 /www/wwwroot/hongyuguo.com
 #   SERVER=root@1.2.3.4 SITE_DIR=/www/wwwroot/xxx ./deploy/deploy.sh

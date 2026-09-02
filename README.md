@@ -97,17 +97,26 @@ Cursor 版 hero 已改为**三张图片滚动漫游**（ctd2 → ct7 → ct8 交
 4. **第四幕**：ct8 渐隐变白 + Now / Links / 页脚
 导航（About/Projects/Now/Links）点击平滑滚动到对应幕。
 
-## 部署（宝塔）
+## 部署（阿里云轻量 · 新加坡）
 
-纯静态站点，无需构建。宝塔建站（域名 + SSL 已配置）后执行：
+生产环境：**阿里云轻量应用服务器（新加坡 ap-southeast-1，公网 IP 47.84.21.65，2C0.5G，Alibaba Cloud Linux 4）**，免备案（海外节点）。
+
+- 环境：仅 **Nginx**（无面板），站点根目录 `/www/wwwroot/hongyuguo.com`；
+- Nginx 站点配置：`/etc/nginx/conf.d/hongyuguo.com.conf`（80 强制跳 443 + 443 SSL + `.well-known/acme-challenge/` 静态放行）；
+- SSL：**acme.sh + Let's Encrypt**，证书文件 `/etc/nginx/cert/hongyuguo.com.{pem,key}`；acme.sh 自带每天 cron 续期任务，到期自动续签并 `systemctl reload nginx`，无需人工干预；
+- 历史：曾部署在国内阿里云 ECS，因**域名未 ICP 备案被阿里云拦截（403 Non-compliance ICP Filing）**导致外网与 LE 验证全部失败，2026-09-01 迁至新加坡服务器。
+
+部署方式（纯静态站，无需构建）：
 
 ```bash
 # 方式一：一键脚本（推荐，自动备份旧版本）
-SERVER=root@服务器IP ./deploy/deploy.sh
+SERVER=root@47.84.21.65 ./deploy/deploy.sh
 # 网站根目录不是默认 /www/wwwroot/hongyuguo.com 时：
 SERVER=root@服务器IP SITE_DIR=/www/wwwroot/其他目录 ./deploy/deploy.sh
 
-# 方式二：手动（宝塔面板 → 文件，上传 deploy/hongyuguo-site.tar.gz 到网站根目录后解压）
+# 方式二：手动（scp 上传 deploy/hongyuguo-site.tar.gz 到服务器 /tmp 后解压）
+scp deploy/hongyuguo-site.tar.gz root@47.84.21.65:/tmp/
+ssh root@47.84.21.65 "tar xzf /tmp/hongyuguo-site-full.tar.gz -C /www/wwwroot/hongyuguo.com"
 ```
 
 部署包 `deploy/hongyuguo-site.tar.gz` 含：`index.html`、`preview-cursor.css`、`preview-cursor-pond.js`、`assets/`（头像/鱼/蛙/图标）与三张荷花图（`pond/ctd2|ct7.jpg`、`pond/ct8.png`）。
@@ -117,6 +126,10 @@ SERVER=root@服务器IP SITE_DIR=/www/wwwroot/其他目录 ./deploy/deploy.sh
 cd "/Users/guohongyu/AI projects/hongyuguo.com" && \
 tar czf deploy/hongyuguo-site.tar.gz index.html preview-cursor.css preview-cursor-pond.js assets "pond/ctd2.jpg" "pond/ct7.jpg" "pond/ct8.png"
 ```
+
+⚠️ 服务器登录：默认用户是 `admin`，安装软件需先 `su - root`；root SSH 密码登录可用。
+
+⚠️ acme.sh 踩坑记录：注册账号必须指定 `--server letsencrypt`（默认 ZeroSSL 会报 EAB 错误）；邮箱必须纯 ASCII；首次装好后账号邮箱若填错，需改 `/root/.acme.sh/account.conf` 的 `ACCOUNT_EMAIL` 再 `--register-account`。
 
 ⚠️ Links 板块的 6 个社交链接已替换为真实账号（X/GitHub/Instagram/TikTok/哔哩哔哩/小红书）。
 
