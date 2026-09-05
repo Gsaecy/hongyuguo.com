@@ -85,27 +85,60 @@
     if (el) el.addEventListener('load', function () { layoutDecor(); update(); });
   });
 
-  /* ---------- 预加载全部帧 ---------- */
+  /* ---------- 预加载全部帧(二分扩散顺序:先 0/100/50,再 25/75…) ---------- */
   var frames = new Array(FRAME_COUNT);
   var loadedCount = 0;
   var pad = function (i) { return String(i).length < 4 ? new Array(4 - String(i).length + 1).join('0') + i : String(i); };
+  var loadOrder = [];
+  (function buildOrder() {
+    // 首尾帧最优先(首页与结尾最早出现),其余二分扩散
+    loadOrder.push(0, FRAME_COUNT - 1);
+    var add = function (lo, hi) {
+      if (lo > hi) return;
+      var mid = (lo + hi) >> 1;
+      loadOrder.push(mid);
+      add(lo, mid - 1);
+      add(mid + 1, hi);
+    };
+    add(1, FRAME_COUNT - 2);
+  })();
 
   var loadBar = document.createElement('div');
   loadBar.style.cssText = 'position:fixed;left:0;top:0;height:3px;background:#e5631f;width:0;z-index:300';
   document.body.appendChild(loadBar);
 
-  for (var i = 0; i < FRAME_COUNT; i++) {
+  function frameReady(idx) {
+    var img = frames[idx];
+    return img && img.complete && img.naturalWidth > 0;
+  }
+
+  /* 目标帧未就绪时,显示前后最近的已加载帧,保证画面连续 */
+  function nearestLoaded(f) {
+    if (frameReady(f)) return f;
+    for (var d = 1; d < FRAME_COUNT; d++) {
+      if (f - d >= 0 && frameReady(f - d)) return f - d;
+      if (f + d < FRAME_COUNT && frameReady(f + d)) return f + d;
+    }
+    return f;
+  }
+
+  for (var i = 0; i < loadOrder.length; i++) {
     (function (idx) {
       var img = new Image();
       img.onload = function () {
         loadedCount++;
         loadBar.style.width = Math.round(loadedCount / FRAME_COUNT * 100) + '%';
         if (loadedCount === FRAME_COUNT) { loadBar.style.display = 'none'; }
+        // 若当前正好需要这一帧,立即补帧显示
+        if (idx === targetFrame && currentFrame !== idx) {
+          currentFrame = idx;
+          frameEl.src = frames[idx].src;
+        }
       };
       img.onerror = function () { loadedCount++; };
       img.src = BASE + pad(idx) + '.jpg';
       frames[idx] = img;
-    })(i);
+    })(loadOrder[i]);
   }
 
   /* ---------- 内容场景区间 ---------- */
@@ -130,14 +163,16 @@
 
   /* ---------- 滚动 scrub ---------- */
   var currentFrame = -1;
+  var targetFrame = 0;
   var ticking = false;
 
   function update() {
     ticking = false;
     var maxScroll = Math.max(1, hero.offsetHeight - innerHeight);
     var p = Math.min(1, Math.max(0, window.scrollY / maxScroll));
-    var f = Math.min(FRAME_COUNT - 1, Math.round(p * (FRAME_COUNT - 1)));
-    if (f !== currentFrame && frames[f] && frames[f].complete) {
+    targetFrame = Math.min(FRAME_COUNT - 1, Math.round(p * (FRAME_COUNT - 1)));
+    var f = nearestLoaded(targetFrame);
+    if (f !== currentFrame) {
       currentFrame = f;
       frameEl.src = frames[f].src;
     }
