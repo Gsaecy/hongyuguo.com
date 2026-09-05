@@ -3,15 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hongyu Guo · Indie Developer</title>
-  <meta name="description" content="Hongyu Guo, indie developer. Building small software for a better digital life — SafeVault and MaiKer.">
-  <link rel="icon" type="image/png" media="(prefers-color-scheme: dark)" href="assets/favicon-white.png?v=2">
-  <link rel="icon" type="image/png" media="(prefers-color-scheme: light)" href="assets/favicon-black.png?v=2">
-  <link rel="stylesheet" href="preview-cursor.css?v=3">
+  <title>Hongyu Guo · 3D 环绕滚动原型</title>
+  <meta name="description" content="Hongyu Guo (郭宏宇), indie developer.">
+  <link rel="icon" type="image/jpeg" href="assets/avatar.jpg">
+  <link rel="stylesheet" href="preview-cursor.css?v=4">
 </head>
 <body>
 
-  <!-- Top nav · cream canvas, 64px -->
   <nav class="top-nav" aria-label="Global">
     <div class="nav-inner">
       <a class="wordmark" href="#top">hongyuguo<span class="dot">.</span>com</a>
@@ -25,12 +23,10 @@
   </nav>
 
   <main id="top">
-
-    <!-- One-screen scroll story: 4 scenes inside a sticky viewport -->
     <section class="hero hero-pond" id="hero-pond">
       <div class="hero-sticky">
 
-        <!-- scene backdrop: scroll-driven frame sequence (3D 环绕镜头) -->
+        <!-- 滚动驱动的帧序列背景 -->
         <div class="pond-scene" aria-hidden="true">
           <img class="pond-img" id="pond-frame" src="assets/video/hehuachi/hehuachi0000.jpg" alt="" style="opacity:1">
         </div>
@@ -51,7 +47,7 @@
           </div>
         </div>
 
-        <!-- Scene 2 · About on translucent white veil -->
+        <!-- Scene 2 · About -->
         <div class="screen-content screen-panel" id="screen-about">
           <div class="panel-inner">
             <p class="eyebrow">01 — About</p>
@@ -67,7 +63,7 @@
           </div>
         </div>
 
-        <!-- Scene 3 · Projects on translucent white veil -->
+        <!-- Scene 3 · Projects -->
         <div class="screen-content screen-panel" id="screen-projects">
           <div class="panel-inner">
             <p class="eyebrow">02 — Projects</p>
@@ -95,7 +91,7 @@
           </div>
         </div>
 
-        <!-- Scene 4 · Now + Links + footer on white -->
+        <!-- Scene 4 · Now + Links + footer -->
         <div class="screen-content screen-end" id="screen-end">
           <div class="end-inner">
 
@@ -144,9 +140,8 @@
 
       </div>
     </section>
-
   </main>
 
-  <script src="pond-scroll-frames.js?v=1"></script>
+  <script src="pond-scroll-frames.js"></script>
 </body>
 </html>

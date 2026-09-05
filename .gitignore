@@ -6,5 +6,12 @@ source/
 pond/Map/
 pond/sc/
 
+# 渲染源素材(822MB PNG 序列,仅本地存档)
+assets/渲染vido/
+
+# 3D 模型源文件(大体积,不入仓库)
+assets/models/
+
 # deploy bundle (regenerated on demand)
 deploy/*.tar.gz
+deploy/staging/
