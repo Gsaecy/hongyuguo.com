@@ -12,6 +12,8 @@ FILES=(
   preview-cursor.css
   discuss.css
   pond-scroll-video.js
+  i18n.js
+  forum.js
   discuss.js
   discuss-config.js
   topics.js
