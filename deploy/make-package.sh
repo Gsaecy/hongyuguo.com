@@ -11,7 +11,7 @@ FILES=(
   discuss.html
   preview-cursor.css
   discuss.css
-  pond-scroll-frames.js
+  pond-scroll-video.js
   discuss.js
   discuss-config.js
   topics.js
@@ -31,6 +31,7 @@ FILES=(
 echo "→ 打包部署文件…"
 mkdir -p deploy
 rm -f deploy/hongyuguo-site.tar.gz
-tar czf deploy/hongyuguo-site.tar.gz "${FILES[@]}"
+# 排除 pond/Map、pond/sc(3ds Max/FBX/PSD 等源素材,体积大且线上不引用)
+tar czf deploy/hongyuguo-site.tar.gz --exclude='pond/Map' --exclude='pond/sc' "${FILES[@]}"
 echo "✓ 已生成 deploy/hongyuguo-site.tar.gz"
 du -h deploy/hongyuguo-site.tar.gz

@@ -7,7 +7,7 @@
   <meta name="description" content="Hongyu Guo, indie developer. Building small software for a better digital life — SafeVault and MaiKer.">
   <link rel="icon" type="image/png" media="(prefers-color-scheme: dark)" href="assets/favicon-white.png?v=2">
   <link rel="icon" type="image/png" media="(prefers-color-scheme: light)" href="assets/favicon-black.png?v=2">
-  <link rel="stylesheet" href="preview-cursor.css?v=7">
+  <link rel="stylesheet" href="preview-cursor.css?v=8">
 </head>
 <body>
 
@@ -36,9 +36,14 @@
     <section class="hero hero-pond" id="hero-pond">
       <div class="hero-sticky">
 
-        <!-- scene backdrop: scroll-driven frame sequence (3D 环绕镜头) -->
+        <!-- scene backdrop: 压缩视频 scrub(3D 环绕镜头)——视频不自动播放,
+             仅随滚动 seek 到对应帧;视频失败时回退为按需加载帧序列 -->
         <div class="pond-scene" aria-hidden="true">
           <img class="pond-img" id="pond-frame" src="assets/video/hehuachi/hehuachi0000.jpg" alt="" style="opacity:1">
+          <video class="pond-img pond-video" id="pond-video" muted playsinline webkit-playsinline
+                 preload="auto" disablepictureinpicture
+                 poster="assets/video/hehuachi/hehuachi0000.jpg"
+                 src="assets/video/hehuachi-orbit.mp4"></video>
         </div>
 
         <div class="pond-shade" id="pond-shade" aria-hidden="true"></div>
@@ -175,6 +180,6 @@
   </main>
 
   <script src="i18n.js?v=12"></script>
-  <script src="pond-scroll-frames.js?v=4"></script>
+  <script src="pond-scroll-video.js?v=1"></script>
 </body>
 </html>

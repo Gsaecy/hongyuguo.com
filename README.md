@@ -99,18 +99,24 @@ hongyuguo.com/
 
 ### 荷花池塘部署注意
 
-Cursor 版 hero 已改为**三张图片滚动漫游**（ctd2 → ct7 → ct8 交叉淡化 + 缓慢推进），
-不再依赖 three.js 与 OBJ 模型。部署时上传：`index.html`、`styles.css`、
-`preview-cursor-pond.js`（若选 Cursor 版）及 `pond/ctd2.jpg / ct7.jpg / ct8.png`。
+正式版（index.html）hero 背景为**压缩视频滚动 scrub**：101 帧 3D 环绕镜头渲染序列已压成
+H.264 MP4（`assets/video/hehuachi-orbit.mp4`，约 1.4MB，原帧序列 10MB/101 请求），视频
+**不自动播放**，仅随滚动进度 seek 到对应帧（`pond-scroll-video.js`）；首屏以
+`hehuachi0000.jpg` 作 poster 垫底，视频加载失败时自动回退按需加载帧序列。不再依赖
+three.js 与 OBJ 模型。
+
+Cursor 预览版（preview-cursor.html）仍为三张图片滚动漫游（ctd2 → ct7 → ct8 交叉淡化 +
+缓慢推进），需部署 `preview-cursor-pond.js` 与 `pond/ctd2.jpg / ct7.jpg / ct8.png`。
 `assets/vendor/` 中的 OBJ/MTL 加载器与 `sc/` 模型文件仅 3D 版预览页（preview-3d / preview-cyber）需要。
 
 ## 内容板块（单屏四幕滚动叙事）
 
 页面永远只显示一屏（sticky 视窗 + 400vh 滚动轨道），滚动依次呈现：
-1. **第一幕**：ctd2 荷花图 + 姓名/一句话（Hero）
-2. **第二幕**：切换到 ct7 图 + About 玻璃卡文案
-3. **第三幕**：切换到 ct8 图 + Projects 两个产品卡 + 底部一行 VS Code 扩展案例小字
-4. **第四幕**：ct8 渐隐变白 + Now / Links / 留言讨论入口（含扫码）/ 页脚
+1. **第一幕**：荷花池环绕镜头起始帧 + 姓名/一句话（Hero）
+2. **第二幕**：镜头推进 + About 玻璃卡文案
+3. **第三幕**：镜头继续环绕 + Projects 两个产品卡 + 底部一行 VS Code 扩展案例小字
+4. **第四幕**：结尾帧渐隐变白 + Now / Links / 留言讨论入口（含扫码）/ 页脚
+背景为 101 帧压缩视频按滚动进度 scrub（视频不自动播放，仅随滚动 seek 到对应帧）。
 导航（About/Projects/Now/Links/Community）点击平滑滚动到对应幕；Community 进入留言讨论板块。
 
 ## 留言讨论板块（discuss.html，独立页面）
@@ -148,12 +154,12 @@ scp deploy/hongyuguo-site.tar.gz root@47.84.21.65:/tmp/
 ssh root@47.84.21.65 "tar xzf /tmp/hongyuguo-site-full.tar.gz -C /www/wwwroot/hongyuguo.com"
 ```
 
-部署包 `deploy/hongyuguo-site.tar.gz` 含：`index.html`、`preview-cursor.css`、`preview-cursor-pond.js`、`assets/`（头像/鱼/蛙/图标）与三张荷花图（`pond/ctd2|ct7.jpg`、`pond/ct8.png`）。
+部署包 `deploy/hongyuguo-site.tar.gz` 含：`index.html`、`preview-cursor.css`、`pond-scroll-video.js`、`assets/`（头像/鱼/蛙/图标/**荷花池压缩视频与帧序列**）与三张荷花图（`pond/ctd2|ct7.jpg`、`pond/ct8.png`，Cursor 预览版用）；自动排除 `pond/Map`、`pond/sc`（3D 源素材，体积大且线上不引用）。
 改代码后重新生成部署包：
 
 ```bash
 cd "/Users/guohongyu/AI projects/hongyuguo.com" && \
-tar czf deploy/hongyuguo-site.tar.gz index.html preview-cursor.css preview-cursor-pond.js assets "pond/ctd2.jpg" "pond/ct7.jpg" "pond/ct8.png"
+tar czf deploy/hongyuguo-site.tar.gz index.html preview-cursor.css pond-scroll-video.js assets "pond/ctd2.jpg" "pond/ct7.jpg" "pond/ct8.png"
 ```
 
 ⚠️ 服务器登录：默认用户是 `admin`，安装软件需先 `su - root`；root SSH 密码登录可用。
@@ -162,7 +168,7 @@ tar czf deploy/hongyuguo-site.tar.gz index.html preview-cursor.css preview-curso
 
 ⚠️ Links 板块的 6 个社交链接已替换为真实账号（X/GitHub/Instagram/TikTok/哔哩哔哩/小红书）。
 
-⚠️ 改 CSS 后注意：部署包必须同时包含最新 `preview-cursor.css` 与 `preview-cursor-pond.js`，避免线上样式/脚本与 HTML 不匹配。
+⚠️ 改 CSS 后注意：部署包必须同时包含最新 `preview-cursor.css` 与 `pond-scroll-video.js`，避免线上样式/脚本与 HTML 不匹配。
 
 ## 致谢
 

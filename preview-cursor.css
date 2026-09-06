@@ -125,6 +125,9 @@ a { color: var(--primary); text-decoration: none; }
 /* 第三张荷花图：全屏 cover（最小裁剪填满视窗），主体居中 */
 .pond-img[data-i="2"] { object-fit: cover; object-position: 50% 50%; }
 
+/* 视频 scrub 层：初始透明(poster/帧图垫底)，loadeddata 后淡入覆盖 */
+.pond-video { opacity: 0; pointer-events: none; }
+
 /* cream veil — long smooth falloff, top kept light for the intro copy */
 .pond-shade {
   position: absolute;
