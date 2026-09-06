@@ -180,3 +180,18 @@ tar czf deploy/hongyuguo-site.tar.gz index.html preview-cursor.css pond-scroll-v
 ## License
 
 站点代码与素材 © Hongyu Guo，保留所有权利。
+
+## giscus 自定义主题跨域（Nginx 必需配置）
+
+评论区使用自定义主题 `assets/giscus/theme.css`（与网站奶油底/橙色一致）。
+giscus.app 跨域拉取该 CSS，服务器必须放行 CORS，否则浏览器拦截、评论区显示默认样式。
+在 `/etc/nginx/conf.d/hongyuguo.com.conf` 的 `server { }` 块内加：
+
+```nginx
+# giscus 自定义主题跨域加载
+location = /assets/giscus/theme.css {
+    add_header Access-Control-Allow-Origin "https://giscus.app";
+}
+```
+
+改完执行 `nginx -t && systemctl reload nginx`。

@@ -29,9 +29,10 @@ window.DISCUSS_CONFIG = {
   emitMetadata: '0',
   inputPosition: 'top', // 评论框在评论上方，无需滚动即可留言
 
-  /* 显示语言与主题（主题已按网站奶油底 + 橙色定制，本地预览自动回退 light） */
+  /* 显示语言与主题（主题已按网站奶油底 + 橙色定制，本地预览自动回退 light）
+     注意：自定义主题 URL 需服务器对 giscus.app 放行 CORS(见 README 部署注意) */
   lang: 'zh-CN',
-  theme: 'https://hongyuguo.com/assets/giscus/theme.css',
+  theme: 'https://hongyuguo.com/assets/giscus/theme.css?v=2',
   fallbackTheme: 'light',
 
   /* 未启用 giscus 时的兜底入口 */
