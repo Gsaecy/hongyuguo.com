@@ -516,6 +516,11 @@ a { color: var(--primary); text-decoration: none; }
   z-index: 0;
   pointer-events: none; /* 纯装饰，不可点击 */
   cursor: default;
+  /* JS 布局前的默认尺寸与隐藏：防止弱网/卡顿时闪现天然大图 */
+  width: 132px;
+  height: auto;
+  max-width: 28vw;
+  opacity: 0; /* 第四幕由 JS 渐显 */
   transform-origin: 50% 60%;
   filter: drop-shadow(0 8px 24px rgba(32, 32, 32, 0.12));
   animation: carp-sway 7s ease-in-out infinite;

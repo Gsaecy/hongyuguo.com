@@ -8,7 +8,6 @@
 
   var FRAME_COUNT = 101;
   var FPS = 30;
-  var BASE = 'assets/video/hehuachi/hehuachi';
 
   var hero = document.getElementById('hero-pond');
   var vid = document.getElementById('pond-video');
@@ -93,10 +92,8 @@
   var pendingTime = null;
   var lastShownVideo = -1; // 视频已 seek 到的帧
   var lastTarget = 0;      // 最近一次 update 的目标帧
-  var fallbackFrames = {}; // 回退模式:已加载/加载中的帧
-  var shownFallback = -1;  // 回退模式:当前显示的帧
+  var stillEls = [];       // 托底模式:三张交叉淡化图
 
-  var pad = function (i) { return String(i).length < 4 ? new Array(4 - String(i).length + 1).join('0') + i : String(i); };
   var targetTime = function (f) { return f / FPS; };
 
   vid.addEventListener('loadeddata', function () {
@@ -150,6 +147,7 @@
   var videoRetried = false;
 
   vid.addEventListener('error', function () {
+    if (fallbackActive) return; // 托底已启用,忽略停止下载引发的 error
     if (videoOK) return; // 已正常工作,忽略后续错误
     if (!videoRetried) {
       // 瞬时网络错误重试一次,仍失败才降级回退
@@ -159,13 +157,6 @@
     }
     enableFallback();
   });
-
-  function enableFallback() {
-    if (fallbackActive) return;
-    fallbackActive = true;
-    vid.style.display = 'none';
-    showFrameFallback(lastTarget);
-  }
 
   function doSeek(t) {
     if (seeking) { pendingTime = t; return; }
@@ -189,31 +180,48 @@
     doSeek(t);
   }
 
-  /* ---------- 回退:按需加载 JPG 帧(目标帧±1,不预载全部) ---------- */
-  function loadFallback(f) {
-    if (fallbackFrames[f]) return;
-    var img = new Image();
-    img.onload = function () {
-      if (f === lastTarget && shownFallback !== f) {
-        shownFallback = f;
-        frameEl.src = img.src;
-      }
-    };
-    img.src = BASE + pad(f) + '.jpg';
-    fallbackFrames[f] = img;
+  /* ---------- 托底:三张图交叉淡化 + Ken Burns 推进(视频失败或极慢网时启用) ---------- */
+  var STILLS = ['pond/ctd2.jpg', 'pond/ct7.jpg', 'pond/ct8.jpg'];
+
+  function clamp01(x) { return Math.max(0, Math.min(1, x)); }
+  function smoothstep(x) { return x * x * (3 - 2 * x); }
+
+  function enableFallback() {
+    if (fallbackActive) return;
+    fallbackActive = true;
+    vid.style.display = 'none';
+    // 停止视频下载节省慢网带宽(会触发 error,已被上方 guard 拦截)
+    vid.removeAttribute('src');
+    vid.load();
+    var scene = document.querySelector('.pond-scene');
+    STILLS.forEach(function (src, i) {
+      var img = document.createElement('img');
+      img.className = 'pond-img';
+      img.setAttribute('data-i', String(i));
+      img.src = src;
+      img.alt = '';
+      img.style.opacity = '0';
+      scene.appendChild(img);
+      stillEls.push(img);
+    });
+    update();
   }
 
-  function showFrameFallback(f) {
-    if (shownFallback === f) return;
-    var img = fallbackFrames[f];
-    if (img && img.complete && img.naturalWidth) {
-      shownFallback = f;
-      frameEl.src = img.src;
-      return;
+  function showStills(p) {
+    if (!stillEls.length) return;
+    // 三段交叉淡化:ctd2(0~0.25) → ct7(0.2~0.5) → ct8(0.45~)
+    var ops = [
+      Math.min(1, smoothstep(clamp01((0.25 - p) / 0.08))),
+      Math.min(1, smoothstep(clamp01((p - 0.20) / 0.08))) * Math.min(1, smoothstep(clamp01((0.50 - p) / 0.08))),
+      Math.min(1, smoothstep(clamp01((p - 0.45) / 0.08))),
+    ];
+    for (var i = 0; i < 3; i++) {
+      var img = stillEls[i];
+      img.style.opacity = ops[i].toFixed(3);
+      var local = i === 0 ? clamp01(p / 0.21) : i === 1 ? clamp01((p - 0.21) / 0.25) : clamp01((p - 0.46) / 0.34);
+      var s = i === 2 ? 1 : 1.16 + local * 0.08;
+      img.style.transform = 'scale(' + s.toFixed(4) + ')';
     }
-    loadFallback(f);
-    if (f > 0) loadFallback(f - 1);
-    if (f < FRAME_COUNT - 1) loadFallback(f + 1);
   }
 
   /* ---------- 内容面板适配：内容超出视口时按比例缩放。
@@ -324,7 +332,7 @@
     applyScreens(p);
 
     if (videoOK) showFrameVideo(f);
-    else if (fallbackActive) showFrameFallback(f);
+    else if (fallbackActive) showStills(p);
 
     // 鱼和青蛙:结尾白幕渐显时由透明渐变到不透明(仅最后一页出现)
     if (++layoutFrame % 12 === 0) layoutDecor();
@@ -344,6 +352,11 @@
   document.addEventListener('hy:langchange', fitScreens); // 语言切换文案高度变化后重新适配
   setTimeout(fitScreens, 600);
   setTimeout(fitScreens, 1600);
+
+  // 极慢网络托底:4 秒内视频未出首帧,切换三图交叉淡化
+  setTimeout(function () {
+    if (!videoOK && !fallbackActive) enableFallback();
+  }, 4000);
 
   // 视频可能早于本脚本注册监听前就快速失败(preload 与 error 竞态),初始化兑底检查
   if (vid.error || vid.networkState === 3 /* NETWORK_NO_SOURCE */) enableFallback();

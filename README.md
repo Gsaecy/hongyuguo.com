@@ -100,13 +100,15 @@ hongyuguo.com/
 ### 荷花池塘部署注意
 
 正式版（index.html）hero 背景为**压缩视频滚动 scrub**：101 帧 3D 环绕镜头渲染序列已压成
-H.264 MP4（`assets/video/hehuachi-orbit.mp4`，约 1.4MB，原帧序列 10MB/101 请求），视频
+H.264 MP4（`assets/video/hehuachi-orbit.mp4`，约 967KB/1280×852，原帧序列 10MB/101 请求），视频
 **不自动播放**，仅随滚动进度 seek 到对应帧（`pond-scroll-video.js`）；首屏以
-`hehuachi0000.jpg` 作 poster 垫底，视频加载失败时自动回退按需加载帧序列。不再依赖
+`hehuachi-poster.jpg` 作 poster 垫底。**托底方案**：视频加载失败（重试一次）或 4 秒内未出首帧
+（极慢网）时，自动切换**三张图交叉淡化 + Ken Burns 推进**（`pond/ctd2.jpg` 28KB / `ct7.jpg`
+50KB / `ct8.jpg` 56KB，共 134KB）；101 帧序列已不再部署（仅本地留存供重压视频）。不再依赖
 three.js 与 OBJ 模型。
 
 Cursor 预览版（preview-cursor.html）仍为三张图片滚动漫游（ctd2 → ct7 → ct8 交叉淡化 +
-缓慢推进），需部署 `preview-cursor-pond.js` 与 `pond/ctd2.jpg / ct7.jpg / ct8.png`。
+缓慢推进），需部署 `preview-cursor-pond.js` 与 `pond/ctd2.jpg / ct7.jpg / ct8.jpg`。
 `assets/vendor/` 中的 OBJ/MTL 加载器与 `sc/` 模型文件仅 3D 版预览页（preview-3d / preview-cyber）需要。
 
 ## 内容板块（单屏四幕滚动叙事）
@@ -154,12 +156,12 @@ scp deploy/hongyuguo-site.tar.gz root@47.84.21.65:/tmp/
 ssh root@47.84.21.65 "tar xzf /tmp/hongyuguo-site-full.tar.gz -C /www/wwwroot/hongyuguo.com"
 ```
 
-部署包 `deploy/hongyuguo-site.tar.gz` 含：`index.html`、`preview-cursor.css`、`pond-scroll-video.js`、`assets/`（头像/鱼/蛙/图标/**荷花池压缩视频与帧序列**）与三张荷花图（`pond/ctd2|ct7.jpg`、`pond/ct8.png`，Cursor 预览版用）；自动排除 `pond/Map`、`pond/sc`（3D 源素材，体积大且线上不引用）。
+部署包 `deploy/hongyuguo-site.tar.gz` 含：`index.html`、`preview-cursor.css`、`pond-scroll-video.js`、`assets/`（头像/鱼/蛙/图标/**荷花池压缩视频**）与三张压缩后的荷花图（`pond/ctd2|ct7|ct8.jpg`，托底与 Cursor 预览版用）；自动排除 `pond/Map`、`pond/sc`（3D 源素材）与 `assets/video/hehuachi/`（101 帧序列，已不再部署）。
 改代码后重新生成部署包：
 
 ```bash
 cd "/Users/guohongyu/AI projects/hongyuguo.com" && \
-tar czf deploy/hongyuguo-site.tar.gz index.html preview-cursor.css pond-scroll-video.js assets "pond/ctd2.jpg" "pond/ct7.jpg" "pond/ct8.png"
+tar czf deploy/hongyuguo-site.tar.gz index.html preview-cursor.css pond-scroll-video.js assets "pond/ctd2.jpg" "pond/ct7.jpg" "pond/ct8.jpg"
 ```
 
 ⚠️ 服务器登录：默认用户是 `admin`，安装软件需先 `su - root`；root SSH 密码登录可用。

@@ -33,7 +33,7 @@ FILES=(
 echo "→ 打包部署文件…"
 mkdir -p deploy
 rm -f deploy/hongyuguo-site.tar.gz
-# 排除 pond/Map、pond/sc(3ds Max/FBX/PSD 等源素材,体积大且线上不引用)
-tar czf deploy/hongyuguo-site.tar.gz --exclude='pond/Map' --exclude='pond/sc' "${FILES[@]}"
+# 排除 pond/Map、pond/sc(3ds Max/FBX/PSD 等源素材)与 101 帧序列(视频已替代,仅本地留存)
+tar czf deploy/hongyuguo-site.tar.gz --exclude='pond/Map' --exclude='pond/sc' --exclude='assets/video/hehuachi' "${FILES[@]}"
 echo "✓ 已生成 deploy/hongyuguo-site.tar.gz"
 du -h deploy/hongyuguo-site.tar.gz
