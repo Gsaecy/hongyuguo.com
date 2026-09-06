@@ -81,7 +81,7 @@
     }
   }
 
-  addEventListener('resize', layoutDecor);
+  addEventListener('resize', function () { layoutDecor(); fitScreens(); });
   [carpEl, frogEl.querySelector('.frog-frame.f1'), frogEl.querySelector('.frog-frame.f2')].forEach(function (el) {
     if (el) el.addEventListener('load', function () { layoutDecor(); update(); });
   });
@@ -114,6 +114,28 @@
     }
   });
 
+  /* 缓冲未覆盖目标帧时不 seek（避免滚动时触发网络 Range 请求造成卡顿），
+     等 progress 事件缓冲到位后再补 seek */
+  var pendingFrame = null;
+
+  function isBufferedAt(t) {
+    try {
+      for (var i = 0; i < vid.buffered.length; i++) {
+        if (t >= vid.buffered.start(i) && t <= vid.buffered.end(i)) return true;
+      }
+    } catch (e) {}
+    return false;
+  }
+
+  vid.addEventListener('progress', function () {
+    if (pendingFrame === null) return;
+    if (isBufferedAt(targetTime(pendingFrame))) {
+      var f = pendingFrame; pendingFrame = null;
+      lastShownVideo = -1;
+      showFrameVideo(f);
+    }
+  });
+
   vid.addEventListener('error', function () {
     if (videoOK) return; // 已正常工作,忽略后续错误
     enableFallback();
@@ -143,7 +165,9 @@
   function showFrameVideo(f) {
     if (f === lastShownVideo) return;
     lastShownVideo = f;
-    doSeek(targetTime(f));
+    var t = targetTime(f);
+    if (!isBufferedAt(t)) { pendingFrame = f; return; }
+    doSeek(t);
   }
 
   /* ---------- 回退:按需加载 JPG 帧(目标帧±1,不预载全部) ---------- */
@@ -171,6 +195,25 @@
     loadFallback(f);
     if (f > 0) loadFallback(f - 1);
     if (f < FRAME_COUNT - 1) loadFallback(f + 1);
+  }
+
+  /* ---------- 内容面板适配：内容超出视口时整体缩放，避免出现第二条滚动条 ---------- */
+  function fitScreens() {
+    var end = screens.end;
+    var inner = end && end.querySelector('.end-inner');
+    if (!inner) return;
+    inner.style.transform = 'none';
+    inner.style.marginTop = '';
+    inner.style.marginBottom = '';
+    // 可用高度 = 视口高度 - 内容顶部偏移(screen-content 的 padding-top)
+    var avail = end.clientHeight - inner.getBoundingClientRect().top;
+    var h = inner.offsetHeight;
+    if (h <= avail) return;
+    var s = Math.max(0.72, avail / h);
+    inner.style.transform = 'scale(' + s.toFixed(4) + ')';
+    inner.style.transformOrigin = 'top center';
+    inner.style.marginTop = Math.max(0, (avail - h * s) / 2).toFixed(1) + 'px';
+    inner.style.marginBottom = '0';
   }
 
   /* ---------- 内容场景区间 ---------- */
@@ -221,6 +264,7 @@
 
     // 鱼和青蛙:结尾白幕渐显时由透明渐变到不透明(仅最后一页出现)
     if (++layoutFrame % 12 === 0) layoutDecor();
+    if (layoutFrame % 60 === 0) fitScreens();
     var decor = Math.min(1, Math.max(0, (p - 0.78) / 0.14));
     decor = decor * decor * (3 - 2 * decor);
     carpEl.style.opacity = decor.toFixed(2);
@@ -232,9 +276,20 @@
   }, { passive: true });
 
   addEventListener('resize', update);
+  addEventListener('load', fitScreens);
+  setTimeout(fitScreens, 600);
+  setTimeout(fitScreens, 1600);
 
   // 视频可能早于本脚本注册监听前就快速失败(preload 与 error 竞态),初始化兑底检查
   if (vid.error || vid.networkState === 3 /* NETWORK_NO_SOURCE */) enableFallback();
 
+  // 视频也可能在脚本执行前就完成首帧解码(缓存命中),loadeddata 早于监听注册,兑底启用视频路径
+  if (!fallbackActive && !videoOK && vid.readyState >= 2 && !vid.error) {
+    videoOK = true;
+    vid.style.opacity = '1';
+    showFrameVideo(lastTarget);
+  }
+
+  fitScreens();
   update();
 })();

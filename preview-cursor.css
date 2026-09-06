@@ -462,9 +462,21 @@ a { color: var(--primary); text-decoration: none; }
 .screen-panel, .screen-end { justify-content: flex-start; }
 .panel-inner, .end-inner { margin-top: auto; margin-bottom: auto; }
 
+/* 面板保留极窄屏滚动能力，但隐藏滚动条（避免出现第二条滚动条） */
+.screen-panel { scrollbar-width: none; }
+.screen-panel::-webkit-scrollbar { display: none; }
 
-/* end screen (white) */
-.screen-end { z-index: 4; }
+/* 矮视口适配：压缩第 4 幕间距，减少缩放幅度 */
+@media (max-height: 800px) {
+  .screen-end .end-row + .end-row { margin-top: 14px; }
+  .screen-end .community-zone { margin-top: 14px; }
+  .screen-end .end-footer { margin-top: 14px; }
+  .screen-end .end-inner .section-title { margin-bottom: 10px; font-size: 26px; }
+}
+
+
+/* end screen (white)：内容超出时由 JS 整体缩放适配，禁掉面板内滚动条 */
+.screen-end { z-index: 4; overflow: hidden; }
 .end-inner { position: relative; max-width: 960px; width: 100%; text-align: center; }
 .end-gap { margin-top: var(--sp-xxl); }
 
