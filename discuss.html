@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>留言讨论 · hongyuguo.com</title>
+  <meta name="description" content="Hongyu Guo 的留言讨论区 — 为 SafeVault、MaiKer 与四个 VS Code 扩展提供专属话题，欢迎提建议与反馈。">
+  <link rel="icon" type="image/png" media="(prefers-color-scheme: dark)" href="assets/favicon-white.png?v=2">
+  <link rel="icon" type="image/png" media="(prefers-color-scheme: light)" href="assets/favicon-black.png?v=2">
+  <link rel="stylesheet" href="preview-cursor.css?v=7">
+  <link rel="stylesheet" href="discuss.css?v=4">
+</head>
+<body>
+
+  <!-- Top nav · 与首页完全一致 -->
+  <nav class="top-nav" aria-label="Global">
+    <div class="nav-inner">
+      <a class="wordmark" href="index.html#top">hongyuguo<span class="dot">.</span>com</a>
+      <div class="nav-links">
+        <a href="index.html#about" data-i18n="nav.about">About</a>
+        <a href="index.html#projects" data-i18n="nav.projects">Projects</a>
+        <a href="index.html#now" data-i18n="nav.now">Now</a>
+        <a href="index.html#links" data-i18n="nav.links">Links</a>
+        <a href="discuss.html" class="active" data-i18n="nav.community">Community</a>
+      </div>
+      <span class="lang-switch" aria-label="Language">
+        <a href="#" data-lang="zh">中文</a>
+        <span class="sep">·</span>
+        <a href="#" data-lang="en">EN</a>
+      </span>
+    </div>
+  </nav>
+
+  <main class="discuss-main" id="top">
+
+    <!-- ============ 话题列表视图 ============ -->
+    <section class="board-view" id="board-view">
+
+      <div class="board-hero">
+        <p class="eyebrow" data-i18n="discuss.eyebrow">Community</p>
+        <h1 class="board-title" data-i18n="title.community">留言讨论</h1>
+        <p class="board-sub" data-i18n="discuss.sub">对我开发的软件有想法？选一个话题，留下你的建议、吐槽或功能愿望。</p>
+        <p class="board-sub-zh" data-i18n="discuss.sub2">产品建议 · 扩展反馈 · 自由讨论 · 手机扫码随时参与 · 由 GitHub 守护内容安全</p>
+      </div>
+
+      <h2 class="board-group-title"><span data-i18n="discuss.group.products">软件产品</span></h2>
+      <div class="board-grid" id="grid-products"><!-- 产品话题卡片由 discuss.js 渲染 --></div>
+
+      <h2 class="board-group-title"><span data-i18n="discuss.group.extensions">VS Code 扩展</span></h2>
+      <div class="ext-topic-grid" id="grid-extensions"><!-- 扩展话题由 discuss.js 渲染 --></div>
+
+      <h2 class="board-group-title"><span data-i18n="discuss.group.other">其他话题</span></h2>
+      <div class="general-card">
+        <div class="general-copy">
+          <h3 class="general-title" data-i18n="discuss.general.title">自由讨论</h3>
+          <p class="general-sub" data-i18n="forum.sub">与产品无关的话题，在这里发起、浏览与回复，发言实时同步到 GitHub Discussions。</p>
+          <a class="btn-primary" href="discuss.html#forum" data-i18n="discuss.general.btn">发起 / 浏览自由讨论 →</a>
+          <a class="general-minor" id="general-github-link" href="https://github.com/Gsaecy/hongyuguo.com/discussions" target="_blank" rel="noopener" data-i18n="forum.github">在 GitHub 查看</a>
+        </div>
+        <div class="general-qr">
+          <img src="assets/qr/general.png" alt="扫码进入自由讨论">
+          <p data-i18n="discuss.general.qr">手机扫码，直达自由讨论</p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ============ 自由讨论论坛视图（站内，数据同步 GitHub Discussions） ============ -->
+    <section class="forum-view" id="forum-view" hidden>
+      <div class="forum-inner">
+        <a class="back-link" href="discuss.html" data-i18n="discuss.back">← 全部话题</a>
+
+        <header class="forum-head">
+          <div class="forum-head-copy">
+            <p class="eyebrow" data-i18n="forum.eyebrow">Forum</p>
+            <h1 class="forum-title" data-i18n="forum.title">自由讨论</h1>
+            <p class="forum-sub" data-i18n="forum.sub2">任何话题都可以在这里发起。发言与回复实时同步到 GitHub Discussions，两边都能看到。</p>
+          </div>
+          <div class="forum-actions">
+            <span class="forum-user" id="forum-user"></span>
+            <button class="btn-primary btn-sm" type="button" id="forum-new-btn" data-f-act="new" data-i18n="forum.new">发起新讨论</button>
+            <a class="btn-secondary btn-sm" id="forum-github-link" href="#" target="_blank" rel="noopener" data-i18n="forum.github">在 GitHub 查看</a>
+          </div>
+        </header>
+
+        <div class="forum-body" id="forum-list"><!-- 列表/详情/发帖表单由 forum.js 渲染 --></div>
+      </div>
+    </section>
+
+    <!-- ============ 话题详情视图 ============ -->
+    <section class="topic-view" id="topic-view" hidden>
+
+      <div class="topic-view-inner">
+        <a class="back-link" href="discuss.html" data-i18n="discuss.back">← 全部话题</a>
+
+        <header class="topic-head">
+          <img id="tv-icon" class="topic-icon-lg" src="" alt="">
+          <div class="topic-head-copy">
+            <span id="tv-kind" class="topic-kind"></span>
+            <h1 id="tv-name" class="topic-title"></h1>
+            <p id="tv-en" class="topic-en"></p>
+            <p id="tv-tagline" class="topic-tagline"></p>
+            <div class="topic-head-actions">
+              <a id="tv-link" class="btn-primary btn-sm" href="#" target="_blank" rel="noopener"></a>
+              <button id="copy-link" class="btn-secondary btn-sm" type="button" data-i18n="discuss.copy">复制本页链接</button>
+            </div>
+          </div>
+        </header>
+
+        <div class="topic-layout">
+          <div class="topic-main">
+            <h2 class="topic-main-title" data-i18n="discuss.mainTitle">讨论区</h2>
+            <p class="topic-main-note" data-i18n="discuss.note">登录 GitHub 即可留言。你的建议会实时出现在这里，也可以前往 GitHub 参与管理。</p>
+
+            <div class="giscus" id="giscus-box"></div>
+
+            <div class="giscus-fallback" id="giscus-fallback" hidden>
+              <div class="giscus-fallback-inner">
+                <p class="gf-title" data-i18n="discuss.fallback.title">讨论区正在搭建中……</p>
+                <p class="gf-copy" data-i18n="discuss.fallback.copy">留言功能将由 GitHub Discussions 提供（无需本站服务器、防垃圾、可审核）。
+                  在此之前，欢迎直接到 GitHub 上参与讨论。</p>
+                <a id="fb-link" class="btn-primary" href="#" target="_blank" rel="noopener" data-i18n="discuss.fallback.btn">前往 GitHub Discussions</a>
+              </div>
+            </div>
+          </div>
+
+          <aside class="topic-side">
+            <div class="side-card">
+              <img id="side-qr" class="side-qr" src="" alt="扫码进入本话题">
+              <p class="side-qr-caption" data-i18n="discuss.side.qr">手机扫码，直接进入本话题</p>
+            </div>
+            <div class="side-card">
+              <h3 data-i18n="discuss.side.how">参与方式</h3>
+              <ol class="side-steps">
+                <li data-i18n="discuss.side.s1">点击「登录」用 GitHub 账号授权</li>
+                <li data-i18n="discuss.side.s2">写下建议或问题，点击发表</li>
+                <li data-i18n="discuss.side.s3">对他人评论点赞、回应或提出新的想法</li>
+              </ol>
+            </div>
+            <div class="side-card side-note">
+              <h3 data-i18n="discuss.side.safety">内容安全</h3>
+              <p data-i18n="discuss.side.safety.copy">评论由 GitHub 托管与审核，作者本人可在后台随时管理；仅需 GitHub 账号，杜绝匿名垃圾信息。</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="discuss-footer">
+    <p data-i18n="footer.copyright">© 2026 Hongyu Guo — Building small software for a better digital life.</p>
+    <p class="zh" data-i18n="hero.poem">让数字生活，好用如诗，好看如画。</p>
+  </footer>
+
+  <script src="i18n.js?v=10"></script>
+  <script src="discuss-config.js?v=2"></script>
+  <script src="topics.js?v=4"></script>
+  <script src="discuss.js?v=6"></script>
+  <script src="forum.js?v=4"></script>
+</body>
+</html>

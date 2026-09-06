@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-title-key="meta.title.index">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,7 @@
   <meta name="description" content="Hongyu Guo, indie developer. Building small software for a better digital life — SafeVault and MaiKer.">
   <link rel="icon" type="image/png" media="(prefers-color-scheme: dark)" href="assets/favicon-white.png?v=2">
   <link rel="icon" type="image/png" media="(prefers-color-scheme: light)" href="assets/favicon-black.png?v=2">
-  <link rel="stylesheet" href="preview-cursor.css?v=3">
+  <link rel="stylesheet" href="preview-cursor.css?v=7">
 </head>
 <body>
 
@@ -16,11 +16,17 @@
     <div class="nav-inner">
       <a class="wordmark" href="#top">hongyuguo<span class="dot">.</span>com</a>
       <div class="nav-links">
-        <a href="#about" data-scene="about">About</a>
-        <a href="#projects" data-scene="projects">Projects</a>
-        <a href="#now" data-scene="now">Now</a>
-        <a href="#links" data-scene="links">Links</a>
+        <a href="#about" data-scene="about" data-i18n="nav.about">About</a>
+        <a href="#projects" data-scene="projects" data-i18n="nav.projects">Projects</a>
+        <a href="#now" data-scene="now" data-i18n="nav.now">Now</a>
+        <a href="#links" data-scene="links" data-i18n="nav.links">Links</a>
+        <a href="discuss.html" data-i18n="nav.community">Community</a>
       </div>
+      <span class="lang-switch" aria-label="Language">
+        <a href="#" data-lang="zh">中文</a>
+        <span class="sep">·</span>
+        <a href="#" data-lang="en">EN</a>
+      </span>
     </div>
   </nav>
 
@@ -42,25 +48,25 @@
         <div class="screen-content hero-content" id="screen-hero">
           <img class="avatar" src="assets/avatar.jpg" alt="Portrait of Hongyu Guo" width="176" height="176">
           <h1 class="hero-name">Hongyu Guo<span class="dot">.</span></h1>
-          <p class="hero-role">Indie Developer</p>
-          <p class="hero-tagline">Building small software for a better digital life.</p>
-          <p class="hero-tagline-zh">让数字生活，好用如诗，好看如画</p>
+          <p class="hero-role" data-i18n="hero.role">Indie Developer</p>
+          <p class="hero-tagline" data-i18n="hero.tagline">Building small software for a better digital life.</p>
+          <p class="hero-poem" data-i18n="hero.poem">让数字生活，好用如诗，好看如画</p>
           <div class="hero-cta">
-            <a class="btn-primary" href="#about" data-scene="about">See my work</a>
-            <a class="btn-secondary" href="#links" data-scene="links">Get in touch</a>
+            <a class="btn-primary" href="#about" data-scene="about" data-i18n="hero.cta.work">See my work</a>
+            <a class="btn-secondary" href="#links" data-scene="links" data-i18n="hero.cta.touch">Get in touch</a>
           </div>
         </div>
 
         <!-- Scene 2 · About on translucent white veil -->
         <div class="screen-content screen-panel" id="screen-about">
           <div class="panel-inner">
-            <p class="eyebrow">01 — About</p>
-            <h2 class="section-title">About</h2>
+            <p class="eyebrow" data-i18n="scene.about">01 — About</p>
+            <h2 class="section-title" data-i18n="title.about">About</h2>
             <div class="about-copy">
-              <p>Hi, I’m Hongyu Guo — an indie developer. I design and build small software
+              <p data-i18n="about.p1">Hi, I’m Hongyu Guo — an indie developer. I design and build small software
                 that makes digital life safer, calmer, and a little more beautiful:
                 a password manager you can trust, wallpapers that make your Mac feel alive.</p>
-              <p>Right now I’m focused on <a href="https://safevault-service.online" target="_blank" rel="noopener">SafeVault</a>
+              <p data-i18n-html="about.p2">Right now I’m focused on <a href="https://safevault-service.online" target="_blank" rel="noopener">SafeVault</a>
                 and <a href="https://macwall.skin" target="_blank" rel="noopener">MaiKer</a>,
                 both designed, built, and shipped by myself across five platforms.</p>
             </div>
@@ -70,28 +76,32 @@
         <!-- Scene 3 · Projects on translucent white veil -->
         <div class="screen-content screen-panel" id="screen-projects">
           <div class="panel-inner">
-            <p class="eyebrow">02 — Projects</p>
-            <h2 class="section-title">Projects</h2>
+            <p class="eyebrow" data-i18n="scene.projects">02 — Projects</p>
+            <h2 class="section-title" data-i18n="title.projects">Projects</h2>
             <div class="projects-grid">
               <article class="product-card">
-                <span class="card-tag">Password manager</span>
+                <span class="card-tag" data-i18n="projects.tag.safevault">Password manager</span>
                 <h3 class="product-name">SafeVault</h3>
-                <p class="product-tagline">Built for all your devices — iOS, Android, macOS,
-                  and Windows. Local-first, end-to-end protected.</p>
+                <p class="product-tagline" data-i18n-html="projects.safevault">Close the lid at night — your passwords rest in the cloud as ciphertext. Built on the <a href="https://csrc.nist.gov/publications/detail/fips/197/final" target="_blank" rel="noopener">AES-256-GCM standard</a> with authenticated encryption and PBKDF2 key derivation, plaintext never leaves your device; sync transmits ciphertext only, so a breached server can recover not a single password.</p>
                 <div class="product-cta">
-                  <a class="btn-primary" href="https://safevault-service.online" target="_blank" rel="noopener">Visit site →</a>
+                  <a class="btn-primary" href="https://safevault-service.online" target="_blank" rel="noopener" data-i18n="projects.visit">Visit site →</a>
                 </div>
               </article>
               <article class="product-card">
-                <span class="card-tag">Wallpaper app</span>
+                <span class="card-tag" data-i18n="projects.tag.maiker">Wallpaper app</span>
                 <h3 class="product-name">MaiKer</h3>
-                <p class="product-tagline">Wallpapers that make your Mac feel alive —
-                  a curated gallery with dynamic themes, delivered to your desktop.</p>
+                <p class="product-tagline" data-i18n="projects.maiker">Dawn on snowy peaks, wheat rippling at noon, fireflies drifting at dusk — live wallpapers turn your desktop into flowing scenery: drifting snow, fireflies, stardust blooming under your cursor, and a clock pulsing to your music. Every wake of the screen is a new encounter.</p>
                 <div class="product-cta">
-                  <a class="btn-primary" href="https://macwall.skin" target="_blank" rel="noopener">Visit site →</a>
+                  <a class="btn-primary" href="https://macwall.skin" target="_blank" rel="noopener" data-i18n="projects.visit">Visit site →</a>
                 </div>
               </article>
             </div>
+
+            <!-- VS Code 扩展开发案例（小字一行，扩展占比不大） -->
+            <p class="ext-note">
+              <img src="assets/icons/vscode.png" alt="VS Code 图标">
+              <span data-i18n-html="ext.note">vscode 扩展开发案例：<a href="https://marketplace.visualstudio.com/items?itemName=honor-world.ext-trans-picker" target="_blank" rel="noopener">扩展选择助手</a>、<a href="https://marketplace.visualstudio.com/items?itemName=honor-world.dev-env-sync" target="_blank" rel="noopener">部署环境一键迁移</a>、<a href="https://marketplace.visualstudio.com/items?itemName=honor-world.local-skill-quick-launch" target="_blank" rel="noopener">本地skill快捷调用</a>、<a href="https://marketplace.visualstudio.com/items?itemName=honor-world.ChairmanMao-guide-life" target="_blank" rel="noopener">毛主席思想指导</a></span>
+            </p>
           </div>
         </div>
 
@@ -102,17 +112,17 @@
             <div class="end-row now-zone">
               <img class="carp-img" src="assets/carp.png?v=4" alt="">
               <div class="end-block">
-                <p class="eyebrow">03 — Now</p>
-                <h2 class="section-title">Now</h2>
-                <p class="now-copy">Shipping the next SafeVault update across four platforms, refining
+                <p class="eyebrow" data-i18n="scene.now">03 — Now</p>
+                <h2 class="section-title" data-i18n="title.now">Now</h2>
+                <p class="now-copy" data-i18n="now.copy">Shipping the next SafeVault update across four platforms, refining
                   the MaiKer content pipeline, and learning something new every day.</p>
               </div>
             </div>
 
             <div class="end-row links-zone">
               <div class="end-block">
-                <p class="eyebrow">04 — Links</p>
-                <h2 class="section-title">Links</h2>
+                <p class="eyebrow" data-i18n="scene.links">04 — Links</p>
+                <h2 class="section-title" data-i18n="title.links">Links</h2>
                 <div class="links-rows">
                   <div class="links-row">
                     <a class="link-pill" href="https://x.com/kevinguozn?s=11" target="_blank" rel="noopener"><img src="assets/icons/x.png" alt="">X (Twitter)</a>
@@ -121,9 +131,26 @@
                     <a class="link-pill" href="https://www.tiktok.com/@kevin.guo77?_r=1&amp;_t=ZT-99HRJlBDQfF" target="_blank" rel="noopener"><img src="assets/icons/tiktok.png" alt="">TikTok</a>
                   </div>
                   <div class="links-row">
-                    <a class="link-pill" href="https://b23.tv/ZQjOlLR" target="_blank" rel="noopener"><img src="assets/icons/bilibili.png" alt="">Bilibili</a>
-                    <a class="link-pill" href="https://xhslink.cn/m/9kBhTR2vwKs" target="_blank" rel="noopener"><img src="assets/icons/red.png?v=2" alt="">RED</a>
+                    <a class="link-pill" href="https://b23.tv/ZQjOlLR" target="_blank" rel="noopener"><img src="assets/icons/bilibili.png" alt=""><span data-i18n="links.bilibili">哔哩哔哩</span></a>
+                    <a class="link-pill" href="https://xhslink.cn/m/9kBhTR2vwKs" target="_blank" rel="noopener"><img src="assets/icons/red.png?v=2" alt=""><span data-i18n="links.red">小红书</span></a>
                   </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="end-row community-zone">
+              <div class="end-block community-card">
+                <div class="community-copy">
+                  <p class="eyebrow" data-i18n="scene.community">05 — Community</p>
+                  <h2 class="section-title" data-i18n="title.community">留言讨论</h2>
+                  <p class="now-copy" data-i18n="community.copy">对我开发的软件有建议、问题或功能愿望？每个产品都有专属话题，等你来聊。</p>
+                </div>
+                <div class="community-actions">
+                  <a class="btn-primary" href="discuss.html" data-i18n="community.enter">进入讨论区 →</a>
+                  <span class="qr-chip">
+                    <img src="assets/qr/discuss.png" alt="扫码进入讨论区">
+                    <span data-i18n="community.qr">手机扫码留言</span>
+                  </span>
                 </div>
               </div>
             </div>
@@ -134,9 +161,9 @@
             </div>
 
             <div class="end-footer">
-              <p>© 2026 Hongyu Guo — Building small software for a better digital life.</p>
-              <p class="zh">让数字生活，好用如诗，好看如画。</p>
-              <p class="credit">Carp &amp; Frog 3D models by the author (Hongyu Guo) · <a href="https://www.cgmodel.com/model/551075.html" target="_blank" rel="noopener">CGmodel</a></p>
+              <p data-i18n="footer.copyright">© 2026 Hongyu Guo — Building small software for a better digital life.</p>
+              <p class="zh" data-i18n="hero.poem">让数字生活，好用如诗，好看如画。</p>
+              <p class="credit" data-i18n-html="footer.credit">Carp &amp; Frog 3D models by the author (Hongyu Guo) · <a href="https://www.cgmodel.com/model/551075.html" target="_blank" rel="noopener">CGmodel</a></p>
             </div>
 
           </div>
@@ -147,6 +174,7 @@
 
   </main>
 
-  <script src="pond-scroll-frames.js?v=1"></script>
+  <script src="i18n.js?v=12"></script>
+  <script src="pond-scroll-frames.js?v=4"></script>
 </body>
 </html>

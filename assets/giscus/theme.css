@@ -1,0 +1,86 @@
+/* ==========================================================================
+   giscus 自定义主题 — 与 hongyuguo.com Cursor 设计系统保持一致
+   奶油白卡片 + 墨色文字 + 橙色主按钮（--primary: #f54e00 / #d04200）
+   参考 giscus 默认 light 主题结构编写。
+   ========================================================================== */
+:root {
+  --color-prettylights-syntax-comment: #807d72;
+  --color-prettylights-syntax-constant: #0550ae;
+  --color-prettylights-syntax-entity: #8250df;
+  --color-prettylights-syntax-storage-modifier-import: #26251e;
+  --color-prettylights-syntax-entity-tag: #116329;
+  --color-prettylights-syntax-keyword: #cf222e;
+  --color-prettylights-syntax-string: #0a3069;
+  --color-prettylights-syntax-variable: #953800;
+  --color-prettylights-syntax-brackethighlighter-unmatched: #82071e;
+  --color-prettylights-syntax-invalid-illegal-text: #f6f8fa;
+  --color-prettylights-syntax-invalid-illegal-bg: #82071e;
+  --color-prettylights-syntax-carriage-return-text: #f6f8fa;
+  --color-prettylights-syntax-carriage-return-bg: #cf222e;
+  --color-prettylights-syntax-string-regexp: #116329;
+  --color-prettylights-syntax-markup-list: #3b2300;
+  --color-prettylights-syntax-markup-heading: #0550ae;
+  --color-prettylights-syntax-markup-italic: #26251e;
+  --color-prettylights-syntax-markup-bold: #26251e;
+  --color-prettylights-syntax-markup-deleted-text: #82071e;
+  --color-prettylights-syntax-markup-deleted-bg: #ffebe9;
+  --color-prettylights-syntax-markup-inserted-text: #116329;
+  --color-prettylights-syntax-markup-inserted-bg: #dafbe1;
+  --color-prettylights-syntax-markup-changed-text: #953800;
+  --color-prettylights-syntax-markup-changed-bg: #ffd8b5;
+  --color-prettylights-syntax-markup-ignored-text: #eaeef2;
+  --color-prettylights-syntax-markup-ignored-bg: #0550ae;
+  --color-prettylights-syntax-meta-diff-range: #8250df;
+  --color-prettylights-syntax-brackethighlighter-angle: #5a5852;
+  --color-prettylights-syntax-sublimelinter-gutter-mark: #8c959f;
+  --color-prettylights-syntax-constant-other-reference-link: #0a3069;
+
+  --color-btn-text: #26251e;
+  --color-btn-bg: #ffffff;
+  --color-btn-border: #cfcdc4;
+  --color-btn-shadow: 0 1px 0 rgba(38, 37, 30, 0.04);
+  --color-btn-inset-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  --color-btn-hover-bg: #f7f7f4;
+  --color-btn-hover-border: #b8b6ad;
+  --color-btn-active-bg: #efeee8;
+  --color-btn-active-border: #cfcdc4;
+  --color-btn-selected-bg: #efeee8;
+
+  --color-btn-primary-text: #ffffff;
+  --color-btn-primary-bg: #f54e00;
+  --color-btn-primary-border: rgba(38, 37, 30, 0.15);
+  --color-btn-primary-shadow: 0 1px 0 rgba(38, 37, 30, 0.1);
+  --color-btn-primary-inset-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  --color-btn-primary-hover-bg: #d04200;
+  --color-btn-primary-hover-border: rgba(38, 37, 30, 0.15);
+  --color-btn-primary-selected-bg: #d04200;
+  --color-btn-primary-selected-shadow: inset 0 1px 0 rgba(80, 20, 0, 0.2);
+  --color-btn-primary-disabled-text: rgba(255, 255, 255, 0.8);
+  --color-btn-primary-disabled-bg: #f0a283;
+  --color-btn-primary-disabled-border: rgba(38, 37, 30, 0.15);
+
+  --color-fg-default: #26251e;
+  --color-fg-muted: #5a5852;
+  --color-fg-subtle: #807d72;
+  --color-canvas-default: #ffffff;
+  --color-canvas-overlay: #ffffff;
+  --color-canvas-inset: #f7f7f4;
+  --color-canvas-subtle: #f7f7f4;
+  --color-border-default: #e6e5e0;
+  --color-border-muted: #efeee8;
+  --color-neutral-muted: rgba(140, 140, 140, 0.2);
+  --color-accent-fg: #f54e00;
+  --color-accent-emphasis: #f54e00;
+  --color-accent-muted: rgba(245, 78, 0, 0.4);
+  --color-accent-subtle: rgba(245, 78, 0, 0.1);
+  --color-attention-fg: #9a6700;
+  --color-attention-muted: rgba(212, 167, 44, 0.4);
+  --color-attention-subtle: #fff8c5;
+  --color-danger-fg: #d1242f;
+  --color-danger-muted: rgba(255, 129, 130, 0.4);
+  --color-danger-subtle: #ffebe9;
+  --color-primer-shadow-inset: inset 0 1px 0 rgba(208, 215, 222, 0.2);
+  --color-scale-gray-1: #eaeef2;
+  --color-scale-blue-1: #ddf4ff;
+  --color-bg-canvas: #ffffff;
+}

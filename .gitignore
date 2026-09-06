@@ -15,3 +15,7 @@ assets/models/
 # deploy bundle (regenerated on demand)
 deploy/*.tar.gz
 deploy/staging/
+
+# 临时文件（截图等）
+tmp/
+.vscode/

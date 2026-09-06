@@ -12,9 +12,13 @@
 - 📲 **移动端触摸翻页**：上滑/下滑同样为翻页命令，与桌面体验一致；内容安全居中（超高不裁切）、序号避开固定导航栏
 - 🌸 **荷花池塘背景**：三张渲染图随幕切换，Ken Burns 缓慢推进；第三幕 ct8 全屏 cover 最小裁剪
 - 🐟 **鱼蛙装饰**：CGmodel 模型渲染图（作者本人创作），镜像/摆动/双帧交替动画，随视窗缩小自适应尺寸与透明度，点击跳转 CGmodel 作品页
+- 🧩 **VS Code 扩展案例**：Projects 幕底部一行小字 + VS Code 图标展示 4 个扩展，点击直达商店页（扩展占比小，不占版面）
+- 💬 **留言讨论板块**（`discuss.html`，独立页面）：软件产品 / VS Code 扩展 / 其他话题三组话题；点进产品与扩展话题可用 GitHub 账号参与讨论、提建议，每张卡片带二维码，手机扫码即可留言
+- 🗣 **站内自由讨论论坛**（`discuss.html#forum`，`forum.js`）：任何话题站内发起/浏览/回复，数据双向同步 GitHub Discussions（General 分类）；匿名浏览走服务器只读令牌反代 `/github-graphql`，登录复用 giscus 会话（`/giscus-token` 反代换令牌），含 10 分钟本地缓存与失败回退
+- 🔒 **零后端安全方案**：讨论区基于 giscus（数据存 GitHub Discussions，登录/防垃圾/审核全部由 GitHub 承担），静态服务器零负担，配置见 `DISCUSS_SETUP.md`
 - 🎨 **Cursor 设计系统**：奶油底 + 墨色文字 + 橙色点缀，源自 [awesome-design-md](https://github.com/VoltAgent/awesome-design-md)
 - 🌓 **明暗主题自适应 favicon**：`prefers-color-scheme` 切换黑/白签名图标
-- 🌐 **英文界面**：全站英文内容，仅保留中文诗句 tagline「让数字生活，好用如诗，好看如画」
+- 🌐 **全局中英文切换**：导航右上角「中文 / EN」，随浏览器语言自动选择、localStorage 记忆；文案字典在 `i18n.js`（`data-i18n` 纯文本 / `data-i18n-html` 含链接），中文文案为优雅意译
 - 📱 移动端自适应：鱼蛙渐隐至文字底层、Links 两列网格左对齐、无横向溢出
 - 纯静态站点：零构建、零依赖，原生 HTML/CSS/JS
 
@@ -24,6 +28,14 @@
 hongyuguo.com/
 ├── DESIGN.md            # 设计系统（当前生效：cursor，来自 awesome-design-md）
 ├── index.html           # 正式版（Cursor 风格单屏四幕滚动叙事，与 preview-cursor.html 同源）
+├── discuss.html         # 留言讨论板块（话题卡片 → 话题详情 + giscus 评论 + 二维码）
+├── discuss.css          # 讨论板块样式（与首页同一套 Cursor 设计系统）
+├── discuss.js           # 讨论板块逻辑：话题渲染、#topic= 哈希路由、giscus 加载
+├── discuss-config.js    # giscus 配置（按 DISCUSS_SETUP.md 三步启用）
+├── forum.js             # 站内自由讨论论坛（#forum 列表/详情/发帖/评论，双向同步 GitHub Discussions）
+├── topics.js            # 话题数据（SafeVault / MaiKer + 4 个 VS Code 扩展，中英双语）
+├── i18n.js              # 全站中英文文案字典 + 语言切换（data-i18n / data-i18n-html）
+├── DISCUSS_SETUP.md     # 讨论区启用与审核说明
 ├── preview-cursor.css   # Cursor 风格样式（正式版与预览页共用）
 ├── preview-cursor-pond.js  # 滚动引擎：滚轮/触摸翻页、近距吸附、场景切换、鱼蛙布局
 ├── styles.css           # 旧 Apple 风格样式（已退役，保留备用）
@@ -36,7 +48,9 @@ hongyuguo.com/
 ├── preview-cyber.css    # 赛博朋克预览样式
 ├── preview-cyber.js     # 赛博朋克 Three.js 场景（零外部模型，本地 three.min.js）
 ├── deploy/
-│   ├── deploy.sh            # 宝塔部署脚本（SERVER=root@ip 一键上传+解压+备份）
+│   ├── deploy.sh            # 部署脚本（SERVER=root@ip 一键上传+解压+备份）
+│   ├── make-package.sh      # 打包部署文件为 hongyuguo-site.tar.gz
+│   ├── nginx-github-graphql.conf.md  # 论坛 GitHub GraphQL 同源反代配置（大陆访问必需）
 │   └── hongyuguo-site.tar.gz # 部署包（index.html + css + js + assets + 三张荷花图）
 ├── source/              # 源素材（不部署，仅存档）
 │   ├── 头像.jpg         # 头像原图（assets/avatar.jpg 为 640px 压缩版）
@@ -54,8 +68,10 @@ hongyuguo.com/
     ├── avatar.jpg       # 真人头像（640px 压缩版，源文件在 source/头像.jpg）
     ├── favicon-black.png / favicon-white.png  # 标签图标（随 prefers-color-scheme 自动切换黑/白）
     ├── carp.png         # 鲤鱼装饰（作者本人 CGmodel 模型渲染图，源图在 source/鲤鱼.png）
-    ├── frog1.png / frog2.png  # 青蛙双帧（带阴影，6s 交替渐隐动画，源图在 source/）
-    ├── icons/           # 社交图标（x/github/instagram/tiktok/bilibili/red，共 6 个）
+    ├── frog1.png / frog2.png  # 青蛙双帧（带阴影，6s 交替渐隐动画，源图在 source/）│   ├── extensions/      # 4 个 VS Code 扩展官方图标（从 Marketplace 下载）
+│   ├── products/        # SafeVault / MaiKer 产品图标
+│   ├── qr/              # 讨论区二维码（scripts/gen-qr.py 生成）
+│   ├── giscus/theme.css # giscus 自定义主题（奶油底 + 墨色 + 橙，与本站一致）    ├── icons/           # 社交图标（x/github/instagram/tiktok/bilibili/red，共 6 个）
     └── vendor/          # 3D 库本地化（仅 3D 预览页需要，Cursor 版不依赖）
         ├── three.min.js      # three.js 0.137（Vanta 依赖）
         ├── vanta.net.min.js  # Vanta NET 粒子网背景（0.5.24，MIT）
@@ -93,9 +109,19 @@ Cursor 版 hero 已改为**三张图片滚动漫游**（ctd2 → ct7 → ct8 交
 页面永远只显示一屏（sticky 视窗 + 400vh 滚动轨道），滚动依次呈现：
 1. **第一幕**：ctd2 荷花图 + 姓名/一句话（Hero）
 2. **第二幕**：切换到 ct7 图 + About 玻璃卡文案
-3. **第三幕**：切换到 ct8 图 + Projects 两个产品卡
-4. **第四幕**：ct8 渐隐变白 + Now / Links / 页脚
-导航（About/Projects/Now/Links）点击平滑滚动到对应幕。
+3. **第三幕**：切换到 ct8 图 + Projects 两个产品卡 + 底部一行 VS Code 扩展案例小字
+4. **第四幕**：ct8 渐隐变白 + Now / Links / 留言讨论入口（含扫码）/ 页脚
+导航（About/Projects/Now/Links/Community）点击平滑滚动到对应幕；Community 进入留言讨论板块。
+
+## 留言讨论板块（discuss.html，独立页面）
+
+- **软件产品**：SafeVault、MaiKer 两个话题卡片；
+- **VS Code 扩展**：扩展选择助手、部署环境一键迁移、本地skill快捷调用、毛主席思想指导，紧凑话题行；
+- **其他话题**：自由讨论入口直达 GitHub Discussions（General 分类），访客可发起任意话题；
+- **点进话题**：同一页面内切换到话题详情，嵌入 giscus 评论区（登录 GitHub 即可留言，首次评论自动创建 discussion）；
+- **手机扫码**：每张话题卡与详情页均带二维码（`assets/qr/`），扫码直达对应话题；
+- **安全与容量**：数据全部存 GitHub Discussions（登录防垃圾、后台可审核），本站 0.5G 静态服务器零负担；
+- **启用步骤**：见 `DISCUSS_SETUP.md`（公开仓库 + 开 Discussions + 装 giscus app + 填 `discuss-config.js`）。
 
 ## 部署（阿里云轻量 · 新加坡）
 
@@ -109,6 +135,9 @@ Cursor 版 hero 已改为**三张图片滚动漫游**（ctd2 → ct7 → ct8 交
 部署方式（纯静态站，无需构建）：
 
 ```bash
+# 方式零：打包（新增/修改文件后先生成部署包）
+./deploy/make-package.sh
+
 # 方式一：一键脚本（推荐，自动备份旧版本）
 SERVER=root@47.84.21.65 ./deploy/deploy.sh
 # 网站根目录不是默认 /www/wwwroot/hongyuguo.com 时：

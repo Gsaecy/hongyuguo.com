@@ -26,10 +26,7 @@
   var carpBase = 0, frogBase = 0; // 布局得出的目标不透明度(空间不足时<1)
   var layoutFrame = 0;
 
-  var MODEL_URL = 'https://www.cgmodel.com/model/551075.html';
-  function openModel() { window.open(MODEL_URL, '_blank', 'noopener'); }
-  carpEl.addEventListener('click', openModel);
-  frogEl.addEventListener('click', openModel);
+  /* 鲤鱼/青蛙为纯装饰，不可点击；CGmodel 出处见页脚版权行 */
 
   function layoutDecor() {
     if (!carpEl || !frogEl || !nowZone || !linksZone) return;
@@ -160,6 +157,18 @@
     }
     veil.style.opacity = Math.min(1, Math.max(0, (p - 0.9) / 0.08)).toFixed(3);
   }
+
+  /* ---------- 导航 / CTA：点击 data-scene 锚点平滑滚动到对应幕 ---------- */
+  var SCENE_P = { hero: 0, about: 0.3, projects: 0.55, now: 0.92, links: 0.96, end: 0.98 };
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[data-scene]') : null;
+    if (!a) return;
+    var scene = a.getAttribute('data-scene');
+    if (!(scene in SCENE_P)) return;
+    e.preventDefault();
+    var maxScroll = Math.max(1, hero.offsetHeight - innerHeight);
+    window.scrollTo(0, Math.round(SCENE_P[scene] * maxScroll));
+  });
 
   /* ---------- 滚动 scrub ---------- */
   var currentFrame = -1;
