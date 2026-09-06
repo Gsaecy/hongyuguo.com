@@ -125,8 +125,9 @@ a { color: var(--primary); text-decoration: none; }
 /* 第三张荷花图：全屏 cover（最小裁剪填满视窗），主体居中 */
 .pond-img[data-i="2"] { object-fit: cover; object-position: 50% 50%; }
 
-/* 视频 scrub 层：初始透明(poster/帧图垫底)，loadeddata 后淡入覆盖 */
-.pond-video { opacity: 0; pointer-events: none; }
+/* 视频 scrub 层：初始透明(poster 垫底)，loadeddata 后立即显示。
+   poster 与视频首帧同帧，瞬时切换无差异；禁用过渡(弱网下过渡会卡在 0 导致视频整层不可见) */
+.pond-video { opacity: 0; pointer-events: none; transition: none; }
 
 /* cream veil — long smooth falloff, top kept light for the intro copy */
 .pond-shade {
@@ -177,6 +178,9 @@ a { color: var(--primary); text-decoration: none; }
 .screen-content.visible { pointer-events: auto; }
 
 .hero-content { justify-content: center; overflow: hidden; }
+
+/* 首屏文案默认可见：JS 加载前(弱网/慢设备)也能看到 hero 内容，JS 就绪后接管淡入淡出 */
+#screen-hero { opacity: 1; }
 
 /* hero 内容包裹层：等比缩放(zoom)时保持与直接子元素相同的列式布局 */
 .hero-inner {

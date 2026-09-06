@@ -133,11 +133,30 @@
       var f = pendingFrame; pendingFrame = null;
       lastShownVideo = -1;
       showFrameVideo(f);
+      return;
+    }
+    // 目标帧未缓冲：向目标方向找最近的已缓冲帧渐进逼近，避免弱网下画面冻结
+    var dir = pendingFrame > lastShownVideo ? 1 : -1;
+    var found = -1;
+    for (var g = lastShownVideo + dir; g >= 0 && g < FRAME_COUNT; g += dir) {
+      if (isBufferedAt(targetTime(g))) { found = g; break; }
+    }
+    if (found !== -1) {
+      lastShownVideo = -1;
+      showFrameVideo(found);
     }
   });
 
+  var videoRetried = false;
+
   vid.addEventListener('error', function () {
     if (videoOK) return; // 已正常工作,忽略后续错误
+    if (!videoRetried) {
+      // 瞬时网络错误重试一次,仍失败才降级回退
+      videoRetried = true;
+      vid.load();
+      return;
+    }
     enableFallback();
   });
 
