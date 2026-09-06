@@ -37,7 +37,8 @@ hongyuguo.com/
 ├── i18n.js              # 全站中英文文案字典 + 语言切换（data-i18n / data-i18n-html）
 ├── DISCUSS_SETUP.md     # 讨论区启用与审核说明
 ├── preview-cursor.css   # Cursor 风格样式（正式版与预览页共用）
-├── preview-cursor-pond.js  # 滚动引擎：滚轮/触摸翻页、近距吸附、场景切换、鱼蛙布局
+├── preview-cursor-pond.js  # 预览页滚动引擎：滚轮/触摸翻页、近距吸附、场景切换、鱼蛙布局
+├── pond-scroll-video.js  # 正式版滚动引擎：视频 scrub(不自动播放)+三图交叉淡化托底+视口适配
 ├── styles.css           # 旧 Apple 风格样式（已退役，保留备用）
 ├── preview-cursor.html  # Cursor 风格预览页（与正式版同源，带英文预览横幅）
 ├── preview-replicate.html  # Replicate 风格预览页（候补风格）
@@ -65,13 +66,19 @@ hongyuguo.com/
 │       ├── cursor.md    # Cursor 设计系统候选（来自 awesome-design-md）
 │       └── replicate.md # Replicate 设计系统候选（来自 awesome-design-md）
 └── assets/
-    ├── avatar.jpg       # 真人头像（640px 压缩版，源文件在 source/头像.jpg）
+    ├── avatar.webp      # 真人头像（640px WebP，源文件在 source/头像.jpg）
     ├── favicon-black.png / favicon-white.png  # 标签图标（随 prefers-color-scheme 自动切换黑/白）
-    ├── carp.png         # 鲤鱼装饰（作者本人 CGmodel 模型渲染图，源图在 source/鲤鱼.png）
-    ├── frog1.png / frog2.png  # 青蛙双帧（带阴影，6s 交替渐隐动画，源图在 source/）│   ├── extensions/      # 4 个 VS Code 扩展官方图标（从 Marketplace 下载）
-│   ├── products/        # SafeVault / MaiKer 产品图标
+    ├── carp.webp        # 鲤鱼装饰（作者本人 CGmodel 模型渲染图，源图在 source/鲤鱼.png）
+    ├── frog1.webp / frog2.webp  # 青蛙双帧（带阴影，6s 交替渐隐动画，源图在 source/）
+    ├── video/           # 荷花池视频 scrub 资源
+    │   ├── hehuachi-orbit.mp4   # 101 帧渲染序列压缩视频（1280×852，967KB）
+    │   ├── hehuachi-poster.jpg  # 首屏 poster（与视频首帧同帧，56KB）
+    │   └── hehuachi/            # 101 帧序列（仅本地留存供重压视频，不部署）
+    ├── extensions/      # 4 个 VS Code 扩展官方图标（WebP，从 Marketplace 下载）
+    ├── products/        # SafeVault / MaiKer 产品图标（WebP）
 │   ├── qr/              # 讨论区二维码（scripts/gen-qr.py 生成）
-│   ├── giscus/theme.css # giscus 自定义主题（奶油底 + 墨色 + 橙，与本站一致）    ├── icons/           # 社交图标（x/github/instagram/tiktok/bilibili/red，共 6 个）
+│   ├── giscus/theme.css # giscus 自定义主题（奶油底 + 墨色 + 橙，与本站一致）
+    ├── icons/           # 社交图标（x/github/instagram/tiktok/bilibili/red，共 6 个）
     └── vendor/          # 3D 库本地化（仅 3D 预览页需要，Cursor 版不依赖）
         ├── three.min.js      # three.js 0.137（Vanta 依赖）
         ├── vanta.net.min.js  # Vanta NET 粒子网背景（0.5.24，MIT）
@@ -79,8 +86,8 @@ hongyuguo.com/
         ├── atropos.min.css   # Atropos 样式
         ├── MTLLoader.js     # three.js 0.137 MTL 材质加载器
         └── OBJLoader.js     # three.js 0.137 OBJ 模型加载器
-├── pond/              # 荷花池塘场景（三张渲染图被正式版引用）
-│   ├── ctd2.jpg / ct7.jpg / ct8.png  # 滚动漫游背景图（ct8 为新改版 16:9 横图）
+├── pond/              # 荷花池塘场景（三张压缩图被正式版托底与预览版引用）
+│   ├── ctd2.jpg / ct7.jpg / ct8.jpg  # 滚动漫游背景图（28/50/56KB，ct8 为新改版 16:9 横图）
 │   ├── sc/               # OBJ/MTL/贴图（仅 3D 版需要）
 │   └── Map/              # 原始 PSD 贴图（仅源文件不部署）
 └── 3d-model-prompts.md  # 3D 模型生成提示词（机器人方案已弃用，保留备用）

@@ -45,7 +45,7 @@
    - 仓库：`Gsaecy/hongyuguo.com`
    - 页面 ↔ discussion 映射：**「Discussion 的标题包含特定字符串」**
    - Discussion 分类：刚创建的分类
-   - 主题：任意（本站使用自定义主题 `assets/giscus/theme.css`，会自动覆盖）
+   - 主题：任意（本站使用自定义主题 `assets/giscus/theme.css`，会自动覆盖；注意：自定义主题 URL 需要服务器对 `giscus.app` 放行 CORS，否则主题加载失败、评论区显示默认样式，配置见 README「giscus 自定义主题跨域」章节）
    把生成代码里的 `data-repo-id` 与 `data-category-id` 填入本站
    `discuss-config.js`，并把 `enabled` 改为 `true`。
 
