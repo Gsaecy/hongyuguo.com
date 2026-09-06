@@ -178,6 +178,14 @@ a { color: var(--primary); text-decoration: none; }
 
 .hero-content { justify-content: center; overflow: hidden; }
 
+/* hero 内容包裹层：等比缩放(zoom)时保持与直接子元素相同的列式布局 */
+.hero-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
 /* soft radial glow behind the intro copy for contrast over imagery */
 .hero-content::before {
   content: '';

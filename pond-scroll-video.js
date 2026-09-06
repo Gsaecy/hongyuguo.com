@@ -197,35 +197,61 @@
     if (f < FRAME_COUNT - 1) loadFallback(f + 1);
   }
 
-  /* ---------- 内容面板适配：内容超出视口时整体缩放，避免出现第二条滚动条 ---------- */
-  /* 面板内部块(panel-inner/end-inner)：按“视口高 - 块顶部偏移”为可用高度缩放 */
+  /* ---------- 内容面板适配：内容超出视口时按比例缩放。
+     zoom 会同步缩小布局高度(彻底消除内层滚动条),旧浏览器回退 transform ---------- */
+  var supportsZoom = (function () {
+    var d = document.createElement('div');
+    return typeof d.style.zoom === 'string';
+  })();
+
+  function setScale(el, s) {
+    if (s >= 1) {
+      el.style.zoom = '';
+      el.style.transform = '';
+      return;
+    }
+    if (supportsZoom) {
+      el.style.zoom = (Math.round(s * 1000) / 1000).toString();
+      el.style.transform = '';
+    } else {
+      el.style.transform = 'scale(' + s.toFixed(4) + ')';
+      el.style.transformOrigin = 'center center';
+    }
+  }
+
+  /* 面板内部块(panel-inner/end-inner)：可用高度 = 视口高 - 面板上下内边距，
+     zoom 后显式对称 margin 居中，使 scrollHeight 精确等于视口高(彻底无溢出) */
   function fitInner(key, innerSel) {
     var screen = screens[key];
     var inner = screen && screen.querySelector(innerSel);
     if (!inner) return;
-    inner.style.transform = 'none';
+    setScale(inner, 1);
     inner.style.marginTop = '';
     inner.style.marginBottom = '';
-    var avail = screen.clientHeight - inner.getBoundingClientRect().top;
+    var cs = getComputedStyle(screen);
+    var padTop = parseFloat(cs.paddingTop) || 0;
+    var padBottom = parseFloat(cs.paddingBottom) || 0;
+    var avail = screen.clientHeight - padTop - padBottom;
     var h = inner.offsetHeight;
-    if (h <= avail) return;
-    var s = Math.max(0.6, avail / h);
-    inner.style.transform = 'scale(' + s.toFixed(4) + ')';
-    inner.style.transformOrigin = 'top center';
-    inner.style.marginTop = Math.max(0, (avail - h * s) / 2).toFixed(1) + 'px';
-    inner.style.marginBottom = '0';
+    if (h <= avail) return; // 自然高度可容纳，交给 auto margin 居中
+    var s = Math.max(0.5, avail / h);
+    setScale(inner, s);
+    var mt = Math.max(0, (avail - h * s) / 2);
+    inner.style.marginTop = mt.toFixed(1) + 'px';
+    inner.style.marginBottom = mt.toFixed(1) + 'px';
   }
 
-  /* 第 1 幕 hero：整屏内容居中缩放 */
+  /* 第 1 幕 hero：内容包裹层按可用高度等比缩放 */
   function fitHero() {
     var hero = screens.hero;
-    hero.style.transform = 'none';
-    var avail = hero.clientHeight;
-    var h = hero.scrollHeight;
+    var inner = hero && hero.querySelector('.hero-inner');
+    if (!inner) return;
+    setScale(inner, 1);
+    var cs = getComputedStyle(hero);
+    var avail = hero.clientHeight - (parseFloat(cs.paddingTop) || 0) - (parseFloat(cs.paddingBottom) || 0);
+    var h = inner.offsetHeight;
     if (h <= avail) return;
-    var s = Math.max(0.62, avail / h);
-    hero.style.transform = 'scale(' + s.toFixed(4) + ')';
-    hero.style.transformOrigin = 'center center';
+    setScale(inner, Math.max(0.5, avail / h));
   }
 
   function fitScreens() {
@@ -296,6 +322,7 @@
 
   addEventListener('resize', update);
   addEventListener('load', fitScreens);
+  document.addEventListener('hy:langchange', fitScreens); // 语言切换文案高度变化后重新适配
   setTimeout(fitScreens, 600);
   setTimeout(fitScreens, 1600);
 
