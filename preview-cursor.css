@@ -176,7 +176,7 @@ a { color: var(--primary); text-decoration: none; }
 
 .screen-content.visible { pointer-events: auto; }
 
-.hero-content { justify-content: center; }
+.hero-content { justify-content: center; overflow: hidden; }
 
 /* soft radial glow behind the intro copy for contrast over imagery */
 .hero-content::before {

@@ -198,22 +198,41 @@
   }
 
   /* ---------- 内容面板适配：内容超出视口时整体缩放，避免出现第二条滚动条 ---------- */
-  function fitScreens() {
-    var end = screens.end;
-    var inner = end && end.querySelector('.end-inner');
+  /* 面板内部块(panel-inner/end-inner)：按“视口高 - 块顶部偏移”为可用高度缩放 */
+  function fitInner(key, innerSel) {
+    var screen = screens[key];
+    var inner = screen && screen.querySelector(innerSel);
     if (!inner) return;
     inner.style.transform = 'none';
     inner.style.marginTop = '';
     inner.style.marginBottom = '';
-    // 可用高度 = 视口高度 - 内容顶部偏移(screen-content 的 padding-top)
-    var avail = end.clientHeight - inner.getBoundingClientRect().top;
+    var avail = screen.clientHeight - inner.getBoundingClientRect().top;
     var h = inner.offsetHeight;
     if (h <= avail) return;
-    var s = Math.max(0.72, avail / h);
+    var s = Math.max(0.6, avail / h);
     inner.style.transform = 'scale(' + s.toFixed(4) + ')';
     inner.style.transformOrigin = 'top center';
     inner.style.marginTop = Math.max(0, (avail - h * s) / 2).toFixed(1) + 'px';
     inner.style.marginBottom = '0';
+  }
+
+  /* 第 1 幕 hero：整屏内容居中缩放 */
+  function fitHero() {
+    var hero = screens.hero;
+    hero.style.transform = 'none';
+    var avail = hero.clientHeight;
+    var h = hero.scrollHeight;
+    if (h <= avail) return;
+    var s = Math.max(0.62, avail / h);
+    hero.style.transform = 'scale(' + s.toFixed(4) + ')';
+    hero.style.transformOrigin = 'center center';
+  }
+
+  function fitScreens() {
+    fitHero();
+    fitInner('about', '.panel-inner');
+    fitInner('projects', '.panel-inner');
+    fitInner('end', '.end-inner');
   }
 
   /* ---------- 内容场景区间 ---------- */
