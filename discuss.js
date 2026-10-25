@@ -158,6 +158,17 @@
     link.href = t.link;
     link.textContent = tLink(t);
 
+    /* 项目自带 GitHub Discussions 时的直达入口（topics.js 中的 discussions 字段） */
+    var dl = document.getElementById('tv-discussions');
+    if (dl) {
+      if (t.discussions) {
+        dl.href = t.discussions;
+        dl.hidden = false;
+      } else {
+        dl.hidden = true;
+      }
+    }
+
     var qr = document.getElementById('side-qr');
     qr.src = 'assets/qr/' + encodeURIComponent(t.slug) + '.png?v=2';
     qr.alt = tName(t);

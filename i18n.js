@@ -40,11 +40,11 @@
 
       'projects.tag.safevault': '密码管理器',
       'projects.tag.maiker': '壁纸应用',
-      'projects.safevault': '深夜合盖，密码以密文安睡云端——采用<a href="https://csrc.nist.gov/publications/detail/fips/197/final" target="_blank" rel="noopener">加密标准 AES-256-GCM</a> 认证加密与 PBKDF2 密钥派生，明文从不离开设备；四端同步只传输密文，服务器被攻破也无法还原一条密码。',
-      'projects.maiker': '晨起雪山初醒，午后麦浪翻涌，入夜萤火浮游——动态壁纸把桌面变成流动的风景；飘雪、萤火、随鼠标绽放的星光，还有踩着音乐节拍律动的时钟，每一次点亮屏幕，都是一场新的相遇。',
+      'projects.safevault': '深夜合盖，密码以密文安睡云端——采用<a href="https://csrc.nist.gov/publications/detail/fips/197/final" target="_blank" rel="noopener">加密标准 AES-256-GCM</a> 认证加密与 PBKDF2 密钥派生，明文从不离开设备；四端同步只传输密文，服务器被攻破也无法还原一条密码。现已上架 <a href="https://apps.apple.com/cn/app/safevault%E5%AF%86%E7%A0%81%E7%AE%A1%E7%90%86%E5%99%A8/id6793554270" target="_blank" rel="noopener">iOS App Store</a>、<a href="https://apps.apple.com/cn/app/safevault-%E5%AF%86%E7%A0%81%E7%AE%A1%E7%90%86/id6793116909?mt=12" target="_blank" rel="noopener">Mac App Store</a>、<a href="https://play.google.com/store/apps/details?id=com.honorworld.safevault.android&amp;pli=1" target="_blank" rel="noopener">Google Play</a> 与 <a href="https://apps.microsoft.com/detail/9nsrdwh35hxh?hl=zh-CN&amp;gl=HK" target="_blank" rel="noopener">Microsoft Store</a>，iOS、macOS、Android、Windows 四端均可下载。',
+      'projects.maiker': '最近上新<a href="https://apps.apple.com/cn/app/%E9%BA%A6%E5%A3%B3%E5%A3%81%E7%BA%B8-maiker-%E9%AB%98%E7%BA%A7%E6%84%9F%E5%8A%A8%E6%80%81%E5%A3%81%E7%BA%B8/id6804357926?mt=12" target="_blank" rel="noopener">「锦鲤池」</a>、<a href="https://apps.apple.com/cn/app/%E9%BA%A6%E5%A3%B3%E5%A3%81%E7%BA%B8-maiker-%E9%AB%98%E7%BA%A7%E6%84%9F%E5%8A%A8%E6%80%81%E5%A3%81%E7%BA%B8/id6804357926?mt=12" target="_blank" rel="noopener">「浅滩游鱼」</a>、<a href="https://apps.apple.com/cn/app/%E9%BA%A6%E5%A3%B3%E5%A3%81%E7%BA%B8-maiker-%E9%AB%98%E7%BA%A7%E6%84%9F%E5%8A%A8%E6%80%81%E5%A3%81%E7%BA%B8/id6804357926?mt=12" target="_blank" rel="noopener">「深海风景」</a>——三张实时渲染的 3D 互动壁纸，光标到哪儿鱼群跟到哪儿，点一下水面涟漪荡开。再配上精选动态壁纸、花瓣与萤火等十种氛围特效、随鼠标绽放的星尘蝴蝶，以及跟着节拍律动的桌面时钟。占用极低，安静陪你工作。',
       'projects.visit': '访问网站 →',
 
-      'ext.note': 'vscode 扩展开发案例：<a href="https://marketplace.visualstudio.com/items?itemName=honor-world.ext-trans-picker" target="_blank" rel="noopener">扩展选择助手</a>、<a href="https://marketplace.visualstudio.com/items?itemName=honor-world.dev-env-sync" target="_blank" rel="noopener">部署环境一键迁移</a>、<a href="https://marketplace.visualstudio.com/items?itemName=honor-world.local-skill-quick-launch" target="_blank" rel="noopener">本地skill快捷调用</a>、<a href="https://marketplace.visualstudio.com/items?itemName=honor-world.ChairmanMao-guide-life" target="_blank" rel="noopener">毛主席思想指导</a>',
+      'ext.note': 'vscode 扩展开发案例：<a href="https://marketplace.visualstudio.com/items?itemName=honor-world.ext-trans-picker" target="_blank" rel="noopener">扩展选择助手</a>、<a href="https://marketplace.visualstudio.com/items?itemName=honor-world.dev-env-sync" target="_blank" rel="noopener">部署环境一键迁移</a>、<a href="https://marketplace.visualstudio.com/items?itemName=honor-world.local-skill-quick-launch" target="_blank" rel="noopener">本地skill快捷调用</a>、<a href="https://marketplace.visualstudio.com/items?itemName=honor-world.ChairmanMao-guide-life" target="_blank" rel="noopener">毛主席思想指导</a>、<a href="https://github.com/Gsaecy/DeepSeek-HWChat" target="_blank" rel="noopener">DeepSeek-HWChat</a>',
 
       'now.copy': '正在打磨 SafeVault 在四个平台的下一个版本，精修 MaiKer 的内容管线，每天学一点新东西。',
 
@@ -77,6 +77,7 @@
       'discuss.fallback.copy': '留言功能将由 GitHub Discussions 提供（无需本站服务器、防垃圾、可审核）。在此之前，欢迎直接到 GitHub 上参与讨论。',
       'discuss.fallback.btn': '前往 GitHub Discussions',
       'discuss.copy': '复制本页链接',
+      'discuss.projectDiscussions': '项目 Discussions ↗',
       'discuss.toast': '链接已复制',
       'discuss.side.how': '参与方式',
       'discuss.side.s1': '点击「登录」用 GitHub 账号授权',
@@ -149,11 +150,11 @@
 
       'projects.tag.safevault': 'Password manager',
       'projects.tag.maiker': 'Wallpaper app',
-      'projects.safevault': 'Close the lid at night — your passwords rest in the cloud as ciphertext. Built on the <a href="https://csrc.nist.gov/publications/detail/fips/197/final" target="_blank" rel="noopener">AES-256-GCM standard</a> with authenticated encryption and PBKDF2 key derivation, plaintext never leaves your device; sync transmits ciphertext only, so a breached server can recover not a single password.',
-      'projects.maiker': 'Dawn on snowy peaks, wheat rippling at noon, fireflies drifting at dusk — live wallpapers turn your desktop into flowing scenery: drifting snow, fireflies, stardust blooming under your cursor, and a clock pulsing to your music. Every wake of the screen is a new encounter.',
+      'projects.safevault': 'Close the lid at night — your passwords rest in the cloud as ciphertext. Built on the <a href="https://csrc.nist.gov/publications/detail/fips/197/final" target="_blank" rel="noopener">AES-256-GCM standard</a> with authenticated encryption and PBKDF2 key derivation, plaintext never leaves your device; sync transmits ciphertext only, so a breached server can recover not a single password. Now listed on the <a href="https://apps.apple.com/cn/app/safevault%E5%AF%86%E7%A0%81%E7%AE%A1%E7%90%86%E5%99%A8/id6793554270" target="_blank" rel="noopener">iOS App Store</a>, <a href="https://apps.apple.com/cn/app/safevault-%E5%AF%86%E7%A0%81%E7%AE%A1%E7%90%86/id6793116909?mt=12" target="_blank" rel="noopener">Mac App Store</a>, <a href="https://play.google.com/store/apps/details?id=com.honorworld.safevault.android&amp;pli=1" target="_blank" rel="noopener">Google Play</a>, and <a href="https://apps.microsoft.com/detail/9nsrdwh35hxh?hl=en-US&amp;gl=HK" target="_blank" rel="noopener">Microsoft Store</a> — download it on iOS, macOS, Android, and Windows.',
+      'projects.maiker': 'Recently added — <a href="https://apps.apple.com/cn/app/%E9%BA%A6%E5%A3%B3%E5%A3%81%E7%BA%B8-maiker-%E9%AB%98%E7%BA%A7%E6%84%9F%E5%8A%A8%E6%80%81%E5%A3%81%E7%BA%B8/id6804357926?mt=12" target="_blank" rel="noopener">koi pond</a>, <a href="https://apps.apple.com/cn/app/%E9%BA%A6%E5%A3%B3%E5%A3%81%E7%BA%B8-maiker-%E9%AB%98%E7%BA%A7%E6%84%9F%E5%8A%A8%E6%80%81%E5%A3%81%E7%BA%B8/id6804357926?mt=12" target="_blank" rel="noopener">shallow shoals</a>, and <a href="https://apps.apple.com/cn/app/%E9%BA%A6%E5%A3%B3%E5%A3%81%E7%BA%B8-maiker-%E9%AB%98%E7%BA%A7%E6%84%9F%E5%8A%A8%E6%80%81%E5%A3%81%E7%BA%B8/id6804357926?mt=12" target="_blank" rel="noopener">deep sea</a>: three real-time 3D interactive wallpapers where fish follow your cursor and a click sends ripples across the water. Plus a curated set of live wallpapers, ten ambient effects like falling petals and drifting fireflies, stardust and butterflies that bloom under your mouse, and a clock pulsing to your music. Light on CPU, quiet while you work.',
       'projects.visit': 'Visit site →',
 
-      'ext.note': 'VS Code extension case studies: <a href="https://marketplace.visualstudio.com/items?itemName=honor-world.ext-trans-picker" target="_blank" rel="noopener">Extension Picker</a>, <a href="https://marketplace.visualstudio.com/items?itemName=honor-world.dev-env-sync" target="_blank" rel="noopener">Dev Env Sync</a>, <a href="https://marketplace.visualstudio.com/items?itemName=honor-world.local-skill-quick-launch" target="_blank" rel="noopener">Local Skill Quick Launch</a>, <a href="https://marketplace.visualstudio.com/items?itemName=honor-world.ChairmanMao-guide-life" target="_blank" rel="noopener">Mao’s Thought Guidance</a>',
+      'ext.note': 'VS Code extension case studies: <a href="https://marketplace.visualstudio.com/items?itemName=honor-world.ext-trans-picker" target="_blank" rel="noopener">Extension Picker</a>, <a href="https://marketplace.visualstudio.com/items?itemName=honor-world.dev-env-sync" target="_blank" rel="noopener">Dev Env Sync</a>, <a href="https://marketplace.visualstudio.com/items?itemName=honor-world.local-skill-quick-launch" target="_blank" rel="noopener">Local Skill Quick Launch</a>, <a href="https://marketplace.visualstudio.com/items?itemName=honor-world.ChairmanMao-guide-life" target="_blank" rel="noopener">Mao’s Thought Guidance</a>, <a href="https://github.com/Gsaecy/DeepSeek-HWChat" target="_blank" rel="noopener">DeepSeek-HWChat</a>',
 
       'now.copy': 'Shipping the next SafeVault update across four platforms, refining the MaiKer content pipeline, and learning something new every day.',
 
@@ -186,6 +187,7 @@
       'discuss.fallback.copy': 'Comments will be powered by GitHub Discussions — no server load on this site, spam-resistant and moderated. Until it goes live, feel free to join the conversation on GitHub.',
       'discuss.fallback.btn': 'Go to GitHub Discussions',
       'discuss.copy': 'Copy link',
+      'discuss.projectDiscussions': 'Project discussions ↗',
       'discuss.toast': 'Link copied',
       'discuss.side.how': 'How it works',
       'discuss.side.s1': 'Sign in with your GitHub account',

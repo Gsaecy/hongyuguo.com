@@ -373,8 +373,9 @@ a { color: var(--primary); text-decoration: none; }
   text-shadow: 0 1px 6px rgba(255, 255, 255, 0.7);
   flex: 1;
 }
-.product-cta { margin-top: var(--sp-xl); }
+.product-cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: var(--sp-xl); }
 .product-cta .btn-primary { padding: 8px 16px; font-size: 13px; }
+.product-cta .btn-secondary { padding: 8px 16px; font-size: 13px; }
 
 /* 产品卡正文中的内联链接（如加密标准出处） */
 .product-tagline a {

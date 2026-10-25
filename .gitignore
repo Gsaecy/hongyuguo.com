@@ -19,3 +19,4 @@ deploy/staging/
 # 临时文件（截图等）
 tmp/
 .vscode/
+.backup-*/

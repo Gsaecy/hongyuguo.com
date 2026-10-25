@@ -22,6 +22,7 @@ TOPICS = [
     ("dev-env-sync", f"{BASE}/discuss.html#topic=dev-env-sync"),
     ("local-skill-quick-launch", f"{BASE}/discuss.html#topic=local-skill-quick-launch"),
     ("chairmanmao-guide-life", f"{BASE}/discuss.html#topic=chairmanmao-guide-life"),
+    ("deepseek-hwchat", f"{BASE}/discuss.html#topic=deepseek-hwchat"),
     ("general", GITHUB_DISCUSSIONS),
 ]
 

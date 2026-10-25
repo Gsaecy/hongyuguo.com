@@ -1,6 +1,6 @@
 /* ==========================================================================
    topics.js — 留言讨论板块的话题数据（hongyuguo.com）
-   每个话题对应一个产品：两个 App + 四个 VS Code 扩展。
+   每个话题对应一个产品：两个 App + 五个 VS Code 扩展。
    话题详情页与二维码均以 slug 作为唯一标识。
    ========================================================================== */
 window.HY_TOPICS = [
@@ -11,8 +11,8 @@ window.HY_TOPICS = [
     kindZh: '应用',
     name: 'SafeVault',
     nameZh: '密码管理器',
-    tagline: 'Local-first password manager for iOS / Android / macOS / Windows.',
-    taglineZh: '本地优先的密码管理器，iOS / Android / macOS / Windows 四端可用。',
+    tagline: 'Local-first password manager for iOS / Android / macOS / Windows — now on the iOS App Store, Mac App Store, Google Play, and Microsoft Store.',
+    taglineZh: '本地优先的密码管理器，已在 iOS App Store、Mac App Store、Google Play、Microsoft Store 上架，iOS / Android / macOS / Windows 四端可下载。',
     icon: 'assets/products/safevault.webp',
     link: 'https://safevault-service.online',
     linkLabel: '访问官网',
@@ -25,8 +25,8 @@ window.HY_TOPICS = [
     kindZh: '应用',
     name: 'MaiKer',
     nameZh: '壁纸应用',
-    tagline: 'Wallpapers that make your Mac feel alive.',
-    taglineZh: '让 Mac 桌面活起来的动态壁纸应用。',
+    tagline: '3D interactive wallpapers, curated live wallpapers, ambient and cursor effects, and music-reactive clocks.',
+    taglineZh: '3D 互动壁纸、精选动态壁纸、氛围与鼠标特效、音乐律动时钟——让桌面活起来。',
     icon: 'assets/products/maiker.webp',
     link: 'https://macwall.skin',
     linkLabel: '访问官网',
@@ -91,5 +91,22 @@ window.HY_TOPICS = [
     link: 'https://marketplace.visualstudio.com/items?itemName=honor-world.ChairmanMao-guide-life',
     linkLabel: '安装扩展',
     linkLabelEn: 'Install',
+  },
+  {
+    slug: 'deepseek-hwchat',
+    group: 'extension',
+    kind: 'VS Code Extension',
+    kindZh: 'VS Code 扩展',
+    name: 'DeepSeek-HWChat',
+    nameEn: 'DeepSeek-HWChat',
+    en: 'deepseek-hwchat',
+    taglineZh: '在 VS Code 聊天面板里直接用 DeepSeek V4.1 Flash：原生视觉、视觉代理、推理与智能工具一应俱全。',
+    taglineEn: 'Use DeepSeek V4.1 Flash right inside VS Code chat — native vision, vision proxies, reasoning, and smart tools.',
+    icon: 'assets/extensions/deepseek-hwchat.webp',
+    link: 'https://github.com/Gsaecy/DeepSeek-HWChat',
+    linkLabel: 'GitHub 仓库',
+    linkLabelEn: 'GitHub repo',
+    /* 该话题另有项目自己的 GitHub Discussions，详情页会额外显示直达入口 */
+    discussions: 'https://github.com/Gsaecy/DeepSeek-HWChat/discussions',
   },
 ];

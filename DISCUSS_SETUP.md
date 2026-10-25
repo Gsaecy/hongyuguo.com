@@ -58,7 +58,9 @@
 
 ## 话题与二维码
 
-- 话题数据：`topics.js`，按 `group` 分组：`product`（SafeVault / MaiKer）与 `extension`（4 个 VS Code 扩展）。
+- 话题数据：`topics.js`，按 `group` 分组：`product`（SafeVault / MaiKer）与 `extension`（5 个 VS Code 扩展）。
+  扩展话题若在 `topics.js` 里带了 `discussions` 字段（如 `deepseek-hwchat`），详情页会额外显示
+  「项目 Discussions ↗」按钮，直达该仓库自己的 GitHub Discussions；站内评论仍由 giscus（本站仓库）承载。
 - 「其他话题 · 自由讨论」为**站内论坛**（`discuss.html#forum`，`forum.js`）：任意话题站内发起/浏览/回复，
   数据双向同步 GitHub Discussions 的 **General** 分类；未登录访客只读，登录后（复用 giscus 会话）可发帖与评论。
 - 二维码：`assets/qr/*.png`，内容为 `https://hongyuguo.com/discuss.html#topic=<slug>`（手机扫码直接进入对应话题并可留言）；
