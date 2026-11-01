@@ -26,6 +26,7 @@ FILES=(
   preview-cyber.html
   preview-cyber.css
   preview-cyber.js
+  workstation/
   assets/
   pond/
 )

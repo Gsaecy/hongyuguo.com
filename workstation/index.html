@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Workstation OS · 本地优先的桌面工作台</title>
+  <meta name="description" content="Personal Workstation OS 是一个本地优先的桌面工作台：邮件、订阅、文档、素材与学习收进同一个窗口，数据留在你自己的电脑上。">
+  <link rel="canonical" href="https://hongyuguo.com/workstation/">
+  <link rel="icon" type="image/png" media="(prefers-color-scheme: dark)" href="../assets/favicon-white.png?v=2">
+  <link rel="icon" type="image/png" media="(prefers-color-scheme: light)" href="../assets/favicon-black.png?v=2">
+  <style>
+    :root {
+      --primary: #0066cc;
+      --primary-focus: #0071e3;
+      --ink: #1d1d1f;
+      --ink-muted: #7a7a7a;
+      --hairline: #e0e0e0;
+      --canvas: #ffffff;
+      --canvas-parchment: #f5f5f7;
+      --font-display: "SF Pro Display", system-ui, -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+      --font-text: "SF Pro Text", system-ui, -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      background: var(--canvas);
+      color: var(--ink);
+      font-family: var(--font-text);
+      font-size: 17px;
+      line-height: 1.6;
+      letter-spacing: -0.2px;
+    }
+    .wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px 96px;
+    }
+    .topbar {
+      border-bottom: 1px solid var(--hairline);
+      margin-bottom: 64px;
+    }
+    .topbar-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 15px;
+    }
+    .wordmark {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 17px;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: -0.3px;
+    }
+    .wordmark .dot { color: var(--primary); }
+    .topbar a.plain { color: var(--ink-muted); text-decoration: none; }
+    .topbar a.plain:hover { color: var(--ink); }
+    h1 {
+      font-family: var(--font-display);
+      font-size: 44px;
+      line-height: 1.1;
+      font-weight: 600;
+      letter-spacing: -0.6px;
+      margin: 0 0 8px;
+    }
+    .subtitle {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--ink-muted);
+      margin: 0 0 28px;
+      letter-spacing: 0;
+    }
+    .lead {
+      font-size: 19px;
+      line-height: 1.6;
+      margin: 0 0 32px;
+    }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 0 56px;
+      padding: 0;
+      list-style: none;
+    }
+    .meta li {
+      font-size: 13px;
+      color: var(--ink-muted);
+      border: 1px solid var(--hairline);
+      border-radius: 9999px;
+      padding: 4px 12px;
+      white-space: nowrap;
+    }
+    h2 {
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      margin: 56px 0 16px;
+    }
+    h3 {
+      font-size: 17px;
+      font-weight: 600;
+      margin: 28px 0 6px;
+    }
+    p { margin: 0 0 14px; }
+    ul.plain { margin: 0 0 14px; padding-left: 22px; }
+    ul.plain li { margin-bottom: 8px; }
+    a { color: var(--primary); text-decoration: none; }
+    a:hover { color: var(--primary-focus); text-decoration: underline; }
+    .cards { display: grid; grid-template-columns: 1fr; gap: 12px; margin: 0 0 8px; }
+    .card {
+      background: var(--canvas-parchment);
+      border-radius: 14px;
+      padding: 18px 20px;
+    }
+    .card h3 { margin: 0 0 4px; }
+    .card p { margin: 0; color: #333; font-size: 15.5px; }
+    .callout {
+      border-left: 3px solid var(--primary);
+      background: var(--canvas-parchment);
+      border-radius: 0 12px 12px 0;
+      padding: 18px 20px;
+      margin: 24px 0 8px;
+    }
+    .callout p:last-child { margin-bottom: 0; }
+    .cta {
+      display: inline-block;
+      margin-top: 8px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 9999px;
+      padding: 11px 24px;
+      font-size: 16px;
+      font-weight: 500;
+    }
+    .cta:hover { background: var(--primary-focus); color: #fff; text-decoration: none; }
+    hr.rule {
+      border: 0;
+      border-top: 1px solid var(--hairline);
+      margin: 64px 0 32px;
+    }
+    footer {
+      font-size: 14px;
+      color: var(--ink-muted);
+      line-height: 1.7;
+    }
+    footer a { color: var(--ink-muted); text-decoration: underline; }
+    .en { font-size: 15.5px; color: #333; }
+    @media (max-width: 520px) {
+      h1 { font-size: 34px; }
+      .subtitle { font-size: 19px; }
+      .topbar { margin-bottom: 44px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a class="wordmark" href="https://hongyuguo.com/">hongyuguo<span class="dot">.</span>com</a>
+      <a class="plain" href="https://hongyuguo.com/#projects">← 所有作品</a>
+    </div>
+  </div>
+
+  <main class="wrap">
+
+    <h1>Personal Workstation OS</h1>
+    <p class="subtitle">一个人的桌面工作台，数据留在本机。</p>
+
+    <p class="lead">
+      它把邮件、订阅、文档、素材与学习笔记收进同一个窗口：邮件直接在你的电脑上收取与检索，
+      订阅按主题聚合，文档与素材集中归档，翻译和总结用你自己配置的 AI 密钥完成。
+      没有开发者运营的服务器，也没有账号体系——安装即用，数据只存在你这台机器上。
+    </p>
+
+    <ul class="meta">
+      <li>桌面应用 · macOS / Windows</li>
+      <li>本地优先</li>
+      <li>个人自用项目</li>
+      <li>免费，无广告</li>
+    </ul>
+
+    <h2>它能做什么</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>邮件</h3>
+        <p>用 IMAP 连接企业邮箱与常见邮箱服务；也可以选择「用 Google 账号登录」，通过 Gmail API 以只读方式收信。</p>
+      </div>
+      <div class="card">
+        <h3>订阅</h3>
+        <p>把 RSS 与博客聚合到一处，按主题分组阅读，需要时一键生成摘要。</p>
+      </div>
+      <div class="card">
+        <h3>文档与素材</h3>
+        <p>本地资料库，统一索引与检索，不依赖任何云盘。</p>
+      </div>
+      <div class="card">
+        <h3>AI 辅助</h3>
+        <p>翻译与客观总结。使用你在设置中自己填写的 AI 服务商与 API 密钥，关掉就完全不联网。</p>
+      </div>
+    </div>
+
+    <h2>关于 Google 账号与 Gmail</h2>
+    <p>
+      如果你选择用 Google 账号登录来收 Gmail，本应用只会申请<strong>一个权限</strong>：
+      <code>gmail.readonly</code>（只读）。它不能发送、删除、修改或标记你的邮件，
+      也拿不到你的 Google 密码——授权走的是 Google 官方的 OAuth 2.0 流程，你可以随时在
+      <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">Google 账号的第三方访问页面</a>撤销。
+    </p>
+    <div class="callout">
+      <p><strong>邮件数据去了哪里？</strong>只存进你这台电脑上的本地数据库，不上传、不经过我的服务器、不用于广告或画像，也不会被出售。</p>
+      <p>唯一的例外是你主动点击「翻译」或「总结」时：那一封邮件的文字会通过 HTTPS 发送到<strong>你自己配置的</strong> AI 服务商（例如 DeepSeek、Anthropic），用的是你自己的密钥。不点就不发。</p>
+    </div>
+
+    <h2>隐私政策</h2>
+    <p>
+      完整的说明——包括申请哪些 Google 权限、数据如何存储、保留多久、怎么彻底删除——
+      都写在隐私政策里：
+    </p>
+    <p>
+      <a href="https://hongyuguo.com/workstation/privacy.html">https://hongyuguo.com/workstation/privacy.html</a>
+    </p>
+    <p>
+      <a class="cta" href="https://hongyuguo.com/workstation/privacy.html">阅读隐私政策</a>
+    </p>
+
+    <h2>由谁开发</h2>
+    <p>
+      由独立开发者郭宏宇设计与编写，作为个人日常使用的工具持续维护。
+      如果你对它有兴趣或有疑问，可以在<a href="https://hongyuguo.com/discuss.html">留言区</a>找到我。
+    </p>
+
+    <hr class="rule">
+
+    <section class="en" lang="en">
+      <h2>In English</h2>
+      <p>
+        <strong>Personal Workstation OS</strong> is a local-first desktop workspace for macOS and Windows.
+        It brings mail, feeds, documents, assets and study notes into one window and keeps the data on your own machine.
+        There is no account system and no developer-operated server.
+      </p>
+      <p>
+        If you connect Gmail with your Google account, the app requests a single scope,
+        <code>gmail.readonly</code>. Mail is stored only in a local database on your device; it is never uploaded,
+        sold, used for advertising or profiling. The one exception is when you explicitly click
+        &ldquo;Translate&rdquo; or &ldquo;Summarize&rdquo; on a message: that message&rsquo;s text is sent over HTTPS to the
+        AI provider you configured yourself, with your own API key.
+      </p>
+      <p>
+        Full details: <a href="https://hongyuguo.com/workstation/privacy.html">Privacy Policy</a>.
+        Built and maintained by Hongyu Guo, an independent developer. Questions are welcome in the
+        <a href="https://hongyuguo.com/discuss.html">discussion area</a>.
+      </p>
+    </section>
+
+    <hr class="rule">
+
+    <footer>
+      <p>Personal Workstation OS · 更新于 2026 年 11 月 · <a href="https://hongyuguo.com/">hongyuguo.com</a></p>
+      <p>本页用于向用户和 Google 说明该应用及其数据实践。</p>
+    </footer>
+
+  </main>
+
+</body>
+</html>

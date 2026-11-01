@@ -53,6 +53,9 @@ hongyuguo.com/
 ├── preview-cyber.html   # 赛博朋克 3D 预览页（程序化机械头颅 + 能量管线 + 鼠标视差）
 ├── preview-cyber.css    # 赛博朋克预览样式
 ├── preview-cyber.js     # 赛博朋克 Three.js 场景（零外部模型，本地 three.min.js）
+├── workstation/         # Personal Workstation OS 的对外说明页（Google OAuth 品牌页必需材料）
+│   ├── index.html       # 应用介绍 → 填进 OAuth 同意屏幕的 App homepage（含隐私政策入口）
+│   └── privacy.html     # 隐私政策 → 填进 Privacy policy（与首页同域）
 ├── deploy/
 │   ├── deploy.sh            # 部署脚本（SERVER=root@ip 一键上传+解压+备份）
 │   ├── make-package.sh      # 打包部署文件为 hongyuguo-site.tar.gz
@@ -143,6 +146,28 @@ Cursor 预览版（preview-cursor.html）仍为三张图片滚动漫游（ctd2 �
 - **安全与容量**：数据全部存 GitHub Discussions（登录防垃圾、后台可审核），本站 0.5G 静态服务器零负担；
 - **启用步骤**：见 `DISCUSS_SETUP.md`（公开仓库 + 开 Discussions + 装 giscus app + 填 `discuss-config.js`）。
 
+## Personal Workstation OS 的两个页面（Google OAuth 品牌页）
+
+`workstation/` 下这两个静态页**不是作品展示页**，而是另一个项目 Personal Workstation OS
+在 Google OAuth 同意屏幕上的必需材料：
+
+| URL | 填进 Google Cloud 的位置 | 硬性要求 |
+|---|---|---|
+| `https://hongyuguo.com/workstation/` | Branding → **App home page** | 必须说明应用做什么、不能只是登录页、必须链到隐私政策 |
+| `https://hongyuguo.com/workstation/privacy.html` | Branding → **Privacy policy** | 与首页同域、首页有入口、说明 Google 数据如何被访问/使用/存储/共享 |
+
+依据（2026-11-01 读取）：[Manage OAuth App Branding](https://support.google.com/cloud/answer/15549049)。
+
+**改代码时必须同步这几处**（页面内容要与应用实际行为一致，否则就是虚假披露）：
+
+- 权限只有一个 `gmail.readonly`；若权限变了，隐私政策第 3 节要一起改。
+- 邮件只写本机 `workstation.db`，令牌/密钥只进系统凭据存储（开发构建为 0600 文件）→ 第 5 节。
+- 「翻译 / 总结」会把**用户点击的那一封**邮件文本（≤8000 字符）发到用户自己配置的
+  AI 服务商——这是唯一的数据外发，第 4.1 节已如实披露，不能删。
+- 域名必须先在 Search Console 完成验证、并在 Branding 页加入 Authorized domains，
+  否则上面两个地址根本填不进控制台（顺序不能颠倒）。
+- 新增页面后 `deploy/make-package.sh` 的 `FILES` 里必须包含 `workstation/`。
+
 ## 部署（阿里云轻量 · 新加坡）
 
 生产环境：**阿里云轻量应用服务器（新加坡 ap-southeast-1，公网 IP 47.84.21.65，2C0.5G，Alibaba Cloud Linux 4）**，免备案（海外节点）。
@@ -157,26 +182,88 @@ Cursor 预览版（preview-cursor.html）仍为三张图片滚动漫游（ctd2 �
 ```bash
 # 方式零：打包（新增/修改文件后先生成部署包）
 ./deploy/make-package.sh
+```
 
-# 方式一：一键脚本（推荐，自动备份旧版本）
+**方式一：阿里云控制台 Workbench（当前唯一可用，2026-11-01 实测）**
+
+服务器只接受公钥认证、不接受密码，本机尚未登记公钥，所以 `deploy/deploy.sh`（走 `scp`/`ssh`）
+目前会直接报 `Permission denied (publickey,...)`。实际做法：
+
+1. Workbench 终端窗口的文件上传，把 `deploy/hongyuguo-site.tar.gz` 传到 `/tmp/`；
+2. 终端里 `su - root`（写 `/www/wwwroot` 需要 root）；
+3. 先备份再解压：
+
+```bash
+cp -r /www/wwwroot/hongyuguo.com /www/wwwroot/hongyuguo.com_backup_$(date +%Y%m%d_%H%M%S) && \
+tar xzf /tmp/hongyuguo-site.tar.gz -C /www/wwwroot/hongyuguo.com && \
+ls -l /www/wwwroot/hongyuguo.com/workstation/
+```
+
+静态文件解压即生效，**不需要重启 nginx**。解压会覆盖整站（含 `index.html`），所以第 3 步的
+`cp -r` 备份不能省。
+
+**方式二：一键脚本（需要先把本机公钥装到服务器，之后才可用）**
+
+```bash
 SERVER=root@47.84.21.65 ./deploy/deploy.sh
 # 网站根目录不是默认 /www/wwwroot/hongyuguo.com 时：
 SERVER=root@服务器IP SITE_DIR=/www/wwwroot/其他目录 ./deploy/deploy.sh
-
-# 方式二：手动（scp 上传 deploy/hongyuguo-site.tar.gz 到服务器 /tmp 后解压）
-scp deploy/hongyuguo-site.tar.gz root@47.84.21.65:/tmp/
-ssh root@47.84.21.65 "tar xzf /tmp/hongyuguo-site-full.tar.gz -C /www/wwwroot/hongyuguo.com"
 ```
 
-部署包 `deploy/hongyuguo-site.tar.gz` 含：`index.html`、`preview-cursor.css`、`pond-scroll-video.js`、`assets/`（头像/鱼/蛙/图标/**荷花池压缩视频**）与三张压缩后的荷花图（`pond/ctd2|ct7|ct8.jpg`，托底与 Cursor 预览版用）；自动排除 `pond/Map`、`pond/sc`（3D 源素材）与 `assets/video/hehuachi/`（101 帧序列，已不再部署）。
-改代码后重新生成部署包：
+装公钥：本机 `pbcopy < ~/.ssh/id_ed25519.pub`，在服务器 root 下
+`cat >> ~/.ssh/authorized_keys` 粘贴后回车 + `Ctrl+D`，
+再用 `ssh-keygen -lf /root/.ssh/authorized_keys` 核对刚粘进去那行的指纹，是否与本机
+`ssh-keygen -lf ~/.ssh/id_ed25519.pub` 输出的一致。
+
+⚠️ 公钥位置（2026-11-01 复核，admin 那份已删除）：本机公钥**现在既不在 admin 份里、也不在
+root 份里**——`/home/admin/.ssh/authorized_keys` 里本机那一行已于 2026-11-01 18:11 删除。
+所以 `root@` 与本机经 `admin@` 都返回
+`Permission denied (publickey,…)`，上面的「方式二」要先按前一节把公钥追加进 root 的
+`authorized_keys` 才可用。日常部署一律走 Workbench，见下方「服务器登录」。
+
+⚠️ 删 `authorized_keys` 前必须按**行号/指纹**定位，不能按注释批量删（2026-11-01 差点的坑）：
+admin 那份删前共 4 把钥匙，其中两把**注释完全相同**（都是同一个邮箱地址）、指纹却不同：
+一把是本机那把，另一把用途未确认。当时若按注释 `grep -vF '<那个邮箱>'` 过滤，会一次删掉两把。
+最终保留的是用途未确认那把，本机那把已删除。
+正确做法：先 `awk '{n++; print n, $0}'` 或下面这条逐行打印指纹，认出目标行号，再用
+`awk 'NR!=<行号>'` 只跳那一行：
 
 ```bash
-cd "/Users/guohongyu/AI projects/hongyuguo.com" && \
-tar czf deploy/hongyuguo-site.tar.gz index.html preview-cursor.css pond-scroll-video.js assets "pond/ctd2.jpg" "pond/ct7.jpg" "pond/ct8.jpg"
+while IFS= read -r l; do n=$((n+1)); printf '%2d  %s\n' "$n" "$(printf '%s\n' "$l" | ssh-keygen -lf - 2>/dev/null)"; done < ~/.ssh/authorized_keys
 ```
 
-⚠️ 服务器登录：默认用户是 `admin`，安装软件需先 `su - root`；root SSH 密码登录可用。
+删前删后各数一次钥匙条数，必须**正好少 1**（本次 `4 → 3`）；再用 `ls -l` 看字节数交叉验证
+（本次 `561 → 462` B，差值 99 B ≈ 一行 ed25519 + 注释）。生效时用 `cat 新文件 > authorized_keys`
+而**不是 `mv`**：`cat >` 保留原 inode 与属主权限，`mv` 会换掉。
+
+⚠️ 改 `authorized_keys` 的属主问题：**不要在 root 身份下改 admin 的这份文件**。
+sshd 默认 `StrictModes yes`，会在接受登录前检查用户文件的所有者与权限
+（[sshd_config(5)](https://man.openbsd.org/sshd_config#StrictModes)）；root 动过会把属主
+变成 root，可能连带让 admin 原有的密钥登录一起失效。要动就在 admin 身份下动，改完
+`chmod 600`（权限不是 600 也可能导致整份文件被忽略）。
+
+部署包 `deploy/hongyuguo-site.tar.gz` 含：`index.html`、`preview-cursor.css`、`pond-scroll-video.js`、`assets/`（头像/鱼/蛙/图标/**荷花池压缩视频**）与三张压缩后的荷花图（`pond/ctd2|ct7|ct8.jpg`，托底与 Cursor 预览版用）；自动排除 `pond/Map`、`pond/sc`（3D 源素材）与 `assets/video/hehuachi/`（101 帧序列，已不再部署）。
+改代码后重新生成部署包——**用脚本，不要手写 `tar` 命令**：
+
+```bash
+cd "/Users/guohongyu/AI projects/hongyuguo.com" && ./deploy/make-package.sh
+```
+
+文件清单以 `deploy/make-package.sh` 的 `FILES` 数组为唯一依据（含 `workstation/` 与 `discuss*` 系列）。
+手写的 `tar` 命令容易漏文件：曾有一条只列了 7 个路径的旧命令，漏掉 `workstation/`，
+照着执行会把 Personal Workstation OS 的两个页面从包里删掉，线上随即 404。
+
+⚠️ 服务器登录（2026-11-01 实测修正）：
+- 默认用户是 `admin`，安装软件、写 `/www/wwwroot` 需先 `su - root`；
+- **SSH 只接受公钥认证，不接受密码**（`root@` 与 `admin@` 都返回
+  `Permission denied (publickey,gssapi-keyex,gssapi-with-mic)`，认证方式列表里没有 `password`）。
+  早先本文写的「root SSH 密码登录可用」是错的，已删除。
+- 因此实际部署走**阿里云控制台 Workbench**：上传 `deploy/hongyuguo-site.tar.gz` 到 `/tmp`
+  → `su - root` → 先 `cp -r` 备份站点目录 → `tar xzf /tmp/hongyuguo-site.tar.gz -C /www/wwwroot/hongyuguo.com`。
+  `tar` 报 `Ignoring unknown extended header keyword 'LIBARCHIVE.xattr.*'` 是 macOS 扩展属性，
+  忽略即可；`SCHILY.fflags` / `FinderInfo` 同理。
+- 服务器公网 IP `47.84.21.65`（阿里云新加坡）。**动手前先 `curl -s ifconfig.me` 确认机器**，
+  工作区里另有麦壳壁纸的服务器，曾两次登错机器导致公钥写错位置。
 
 ⚠️ acme.sh 踩坑记录：注册账号必须指定 `--server letsencrypt`（默认 ZeroSSL 会报 EAB 错误）；邮箱必须纯 ASCII；首次装好后账号邮箱若填错，需改 `/root/.acme.sh/account.conf` 的 `ACCOUNT_EMAIL` 再 `--register-account`。
 
